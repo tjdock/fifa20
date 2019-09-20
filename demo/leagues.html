@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      href="/assets/images/favicon.png"
+    />
+    <title>FIFA 20 DATABASE</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .divider {
+        margin-bottom: 20px;
+      }
+      .leagues {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .league-item {
+        display: flex;
+        align-items: center;
+        width: 150px;
+        height: 55px;
+        box-shadow: rgba(0, 0, 0, 0.3) 0 0 10px;
+        border-radius: 10px;
+        padding: 10px;
+        margin: 0 20px 20px 0;
+        font-size: 14px;
+        position: relative;
+      }
+      .league-item img {
+        width: 40px;
+      }
+      .league-item .league-name {
+        width: 100%;
+        word-break: break-all;
+        margin-left: 10px;
+      }
+      .league-item .btn-delete {
+        position: absolute;
+        right: 5px;
+        top: 0px;
+        width: 10px;
+        display: block;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="left-menu">
+        <div class="logo">
+          <img src="assets/images/logo.png" alt="logo" />
+        </div>
+        <div class="menu">
+          <ul>
+            <li>
+              <a href="positions.html">Positions</a>
+            </li>
+            <li>
+              <a href="nations.html">Nations</a>
+            </li>
+            <li class="active">
+              <a href="leagues.html">Leagues</a>
+            </li>
+            <li>
+              <a href="clubs.html">Clubs</a>
+            </li>
+            <li>
+              <a href="players.html">Players</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="right-container">
+        <div class="top-bar">
+          <a href="#">logout</a>
+        </div>
+        <div class="content">
+          <div class="main">
+            <p class="divider">A-B</p>
+            <div class="leagues">
+              <div class="league-item">
+                <img
+                  src="https://futhead.cursecdn.com/static/img/20/leagues/2012.png"
+                />
+                <span class="league-name">CLS</span>
+                <a href="#" class="btn-delete">x</a>
+              </div>
+            </div>
+            <p class="divider">C-D</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

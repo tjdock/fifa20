@@ -1,0 +1,77 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Microsoft YaHei';
+  transition: all 0.5s;
+}
+a {
+  text-decoration: none;
+}
+.d-flex {
+  display: flex;
+}
+
+#app {
+  display: flex;
+  min-height: 100vh;
+}
+.left-menu {
+  width: 256px;
+  background: #001529;
+  box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
+  z-index: 1;
+}
+.left-menu .logo {
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.left-menu .logo img {
+  width: 160px;
+}
+.left-menu .menu li {
+  height: 40px;
+}
+.left-menu .menu li a {
+  display: block;
+  height: 100%;
+  padding-left: 30px;
+  color: #999;
+  line-height: 40px;
+}
+.left-menu .menu li:hover,
+.left-menu .menu li.active {
+  background: #000c17;
+}
+.left-menu .menu li:hover a,
+.left-menu .menu li.active a {
+  color: #fff;
+}
+
+.right-container {
+  background: #f0f2f5;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+.right-container .top-bar {
+  height: 64px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  justify-content: flex-end;
+}
+.right-container .content {
+  padding: 20px;
+  height: 100%;
+}
+.right-container .content .main {
+  background: #fff;
+  height: 100%;
+  padding: 20px;
+}
