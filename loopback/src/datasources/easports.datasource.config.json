@@ -12,11 +12,14 @@
         "method": "GET",
         "url": "https://www.easports.com/fifa/ultimate-team/api/fut/item",
         "query": {
-          "page": "{page}"
+          "page": "{page}",
+          "league": "{league}",
+          "club": "{club}",
+          "country": "{country}"
         }
       },
       "functions": {
-        "getPlayers": ["page"]
+        "getPlayers": ["page","league","club","country"]
       }
     },
     {

@@ -4,7 +4,8 @@ import {EasportsDatasource} from '../datasources';
 import {Easports} from "../models";
 
 export interface EasportsService {
-    getPlayers(page: Number): Promise<Easports>;
+    getPlayers(page: Number, league: Number, club: Number, country: Number): Promise<Easports>;
+
     getPlayersByName(name: String, page: Number): Promise<Easports>;
 }
 

@@ -25,8 +25,11 @@ export class EasportsController {
     })
     async getPlayers(
         @param.query.number('page') page: number,
+        @param.query.number('league') league: number,
+        @param.query.number('club') club: number,
+        @param.query.number('country') country: number,
     ): Promise<Easports> {
-        return this.srv.getPlayers(page);
+        return this.srv.getPlayers(page, league, club, country);
     }
 
     //根据姓名获取列表
