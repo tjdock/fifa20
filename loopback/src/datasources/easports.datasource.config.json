@@ -1,0 +1,36 @@
+{
+  "connector": "rest",
+  "options": {
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    }
+  },
+  "operations": [
+    {
+      "template": {
+        "method": "GET",
+        "url": "https://www.easports.com/fifa/ultimate-team/api/fut/item",
+        "query": {
+          "page": "{page}"
+        }
+      },
+      "functions": {
+        "getPlayers": ["page"]
+      }
+    },
+    {
+      "template": {
+        "method": "GET",
+        "url": "https://www.easports.com/fifa/ultimate-team/api/fut/item",
+        "query": {
+          "name": "{name}",
+          "page": "{page}"
+        }
+      },
+      "functions": {
+        "getPlayersByName": ["name","page"]
+      }
+    }
+  ]
+}
