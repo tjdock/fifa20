@@ -1,1 +1,1 @@
-export * from './easports.service';
+export * from './ea-sports.service';

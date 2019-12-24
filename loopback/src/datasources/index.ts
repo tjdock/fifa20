@@ -1,1 +1,2 @@
-export * from './easports.datasource';
+export * from './ea-sports.datasource';
+export * from './db.datasource';

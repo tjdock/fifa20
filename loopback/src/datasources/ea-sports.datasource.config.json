@@ -1,0 +1,53 @@
+{
+  "connector": "rest",
+  "options": {
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json"
+    }
+  },
+  "operations": [
+    {
+      "template": {
+        "method": "GET",
+        "url": "https://www.easports.com/fifa/ultimate-team/api/fut/item",
+        "query": {
+          "page": "{page}",
+          "league": "{league}",
+          "club": "{club}",
+          "country": "{country}",
+          "position": "{position}"
+        }
+      },
+      "functions": {
+        "getPlayers": ["page","league","club","country"]
+      }
+    },
+    {
+      "template": {
+        "method": "GET",
+        "url": "https://www.easports.com/fifa/ultimate-team/api/fut/item",
+        "query": {
+          "name": "{name}",
+          "page": "{page}"
+        }
+      },
+      "functions": {
+        "getPlayersByName": ["name","page"]
+      }
+    },
+    {
+      "template": {
+        "method": "GET",
+        "url": "http://127.0.0.1:2222/eaplayers",
+        "query": {
+          "filter[limit]": "{limit}",
+          "filter[skip]": "{skip}"
+        }
+      },
+      "functions": {
+        "getEAPlayers": ["limit","skip"]
+      }
+    }
+  ]
+}
