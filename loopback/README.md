@@ -1,33 +1,37 @@
-1.安装 CLI
+## 一.项目设置
 
-> npm install -g @loopback/cli
->
-> lb4 -v
+### 1.安装 CLI
 
-2.创建项目
+`npm install -g @loopback/cli`
 
-> lb4 app
-> [?] Project name: getting-started
-> [?] Project description: Getting started tutorial
-> [?] Project root directory: (getting-started)
-> [?] Application class name: StarterApplication
-> [?] Select project build settings: Enable tslint, Enable prettier, Enable loopbackBuild, Enable repositories, Enable services
+`lb4 -v`
 
-3.启动项目
+### 2.创建项目
 
-> npm i nodemon --save-dev
-> 创建 nodemon.json
-> package.json 中
-> "scripts": {
+`lb4 app`<br>
+[?] Project name: getting-started<br>
+[?] Project description: Getting started tutorial<br>
+[?] Project root directory: (getting-started)<br>
+[?] Application class name: StarterApplication<br>
+[?] Select project build settings: Enable tslint, Enable prettier, Enable loopbackBuild, Enable repositories, Enable services
 
+### 3.启动项目
+
+`npm i nodemon --save-dev`
+
+创建 nodemon.json<br>
+package.json 中<br>
+
+<pre>
+"scripts": {
     "dev": "nodemon",
-
 }
+</pre>
 
-> npm run dev
-> index.js 可以修改端口
+`npm run dev`<br>
+index.js 可以修改端口
 
-4.swagger 测试
+### 4.swagger 测试
 
 <pre>
 {
@@ -42,61 +46,68 @@
 }
 </pre>
 
-********\*\********* 创建 Model ********\*\*********
+## 二.常用 CLI
 
-> lb4 model
-> ? Model class name: Dic
-> ? Please select the model base class: Entity
-> ? Allow additional (free-form) properties? No
+### 1.创建 Model
 
-? Enter the property name: DicID
-? Property type: number
-? Is id the ID property? Yes
-? Is it required?: No
-? Default value [leave blank for none]:
-注意：ID 为主键的话，required 为 false
+`lb4 model`<br>
 
-? Enter the property name: DicType
-? Property type: string
-? Is it required?: Yes
-? Default value [leave blank for none]:
+? Model class name: Dic<br>
+? Please select the model base class: Entity<br>
+? Allow additional (free-form) properties? No<br>
 
-? Enter the property name: DicValue
-? Property type: string
-? Is it required?: Yes
-? Default value [leave blank for none]:
+? Enter the property name: DicID<br>
+? Property type: number<br>
+? Is id the ID property? Yes<br>
+? Is it required?: No<br>
+? Default value [leave blank for none]:<br>
+<b>注意：ID 为主键的话，required 为 false</b><br>
 
-********\*\********* 创建 datasource ********\*\*********
+? Enter the property name: DicValue<br>
+? Property type: string<br>
+? Is it required?: Yes<br>
+? Default value [leave blank for none]:<br>
 
-> lb4 datasource
-> ? Datasource name: db
-> ? Select the connector for db: In-memory db (supported by StrongLoop)
-> ? window.localStorage key to use for persistence (browser only):
-> ? Full path to file for persistence (server only): ./data/db.json
-> 在根目录创建 data 文件夹，里面创建 db.json 文件
+### 2.创建 datasource
 
-********\*\********* 创建 repository ********\*\*********
+`lb4 datasource`<br>
 
-> lb4 repository
-> ? Please select the datasource DbDatasource
-> ? Select the model(s) you want to generate a repository Dic
-> ? Please select the repository base class DefaultCrudRepository (Legacy juggler bridge)
+? Datasource name: db<br>
+? Select the connector for db: In-memory db (supported by StrongLoop)<br>
+? window.localStorage key to use for persistence (browser only):<br>
+? Full path to file for persistence (server only): ./data/db.json<br>
+<b>在根目录创建 data 文件夹，里面创建 db.json 文件</b>
 
-********\*\********* 创建 controller ********\*\*********
+### 3.创建 repository
 
-> lb4 controller
-> ? Controller class name: Dic
-> ? What kind of controller would you like to generate? REST Controller with CRUD functions
-> ? What is the name of the model to use with this CRUD repository? Dic
-> ? What is the name of your CRUD repository? DicRepository
-> ? What is the type of your ID? number
-> ? What is the base HTTP path name of the CRUD operations? /dics
+`lb4 repository`<br>
+
+? Please select the datasource DbDatasource<br>
+? Select the model(s) you want to generate a repository Dic<br>
+? Please select the repository base class DefaultCrudRepository (Legacy juggler bridge)<br>
+
+### 4.创建 controller
+
+`lb4 controller`<br>
+
+? Controller class name: Dic<br>
+? What kind of controller would you like to generate? REST Controller with CRUD functions<br>
+? What is the name of the model to use with this CRUD repository? Dic<br>
+? What is the name of your CRUD repository? DicRepository<br>
+? What is the type of your ID? number<br>
+? What is the base HTTP path name of the CRUD operations? /dics<br>
+
+## 三.其他说明
+
+### 1.CRUD
 
 patch，put，post 区别
 patch 只是局部更新，
 put 是整个更新，
 post 是添加新内容
 
-//调用 API 参考
-https://loopback.io/doc/en/lb4/todo-tutorial-geocoding-service.html
-https://loopback.io/doc/en/lb3/REST-connector.html
+### 2.调用 api
+
+[参考 1](https://loopback.io/doc/en/lb4/todo-tutorial-geocoding-service.html)
+
+[参考 2](https://loopback.io/doc/en/lb3/REST-connector.html)
