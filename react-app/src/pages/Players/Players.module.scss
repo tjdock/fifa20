@@ -1,0 +1,95 @@
+.table {
+  text-align: left;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  font-size: 14px;
+
+  tr {
+    border-bottom: 1px solid #ccc;
+  }
+
+  .fixed {
+    /* width: 50px; */
+    text-align: center;
+  }
+
+  .name {
+    font-weight: bold;
+  }
+
+  .avatar {
+    width: 50px;
+  }
+
+  .tags {
+    display: flex;
+    align-items: center;
+
+    .nationImg,
+    .leagueImg {
+      width: 24px;
+      margin-right: 5px;
+    }
+    .clubImg {
+      width: 20px;
+    }
+  }
+
+  .rat {
+    text-shadow: 0 0 1px #000;
+    color: #fff;
+    width: 27px;
+    height: 27px;
+    display: inline-block;
+    line-height: 27px;
+    border-radius: 4px;
+
+    &.gold {
+      background: linear-gradient(
+        45deg,
+        #c6a009 0%,
+        #f2c40b 50%,
+        #f2c40b 51%,
+        #f0cf4a 100%
+      );
+    }
+    &.silver {
+      background: linear-gradient(
+        45deg,
+        #a9aeb1 0%,
+        #c2c7ca 50%,
+        #c2c7ca 51%,
+        #e9ecf0 100%
+      );
+    }
+    &.bronze {
+      background: linear-gradient(
+        45deg,
+        #6e4c35 0%,
+        #9f7f69 50%,
+        #9f7f69 51%,
+        #ffd9aa 100%
+      );
+    }
+    &.color90 {
+      background: #007e33;
+    }
+    &.color80 {
+      background: #4caf50;
+      color: #fff;
+    }
+    &.color70 {
+      background: #fbc02d;
+      color: #fff;
+    }
+    &.color5060 {
+      background: #fb8c00;
+      color: #fff;
+    }
+    &.color40 {
+      background: #f44336;
+      color: #fff;
+    }
+  }
+}

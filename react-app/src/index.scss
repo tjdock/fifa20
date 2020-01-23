@@ -1,0 +1,52 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Microsoft YaHei';
+}
+a {
+  text-decoration: none;
+}
+.d-flex {
+  display: flex;
+}
+.f-wrap {
+  flex-wrap: wrap;
+}
+
+#app {
+  display: flex;
+  min-height: 100vh;
+}
+
+@mixin itemFunc($width) {
+  display: flex;
+  align-items: center;
+  width: $width;
+  height: 55px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 0 10px;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 0 20px 20px 0;
+  font-size: 14px;
+  position: relative;
+
+  img {
+    width: 40px;
+  }
+
+  .title {
+    width: 100%;
+    word-break: break-all;
+    margin-left: 10px;
+  }
+
+  .delete {
+    position: absolute;
+    right: 5px;
+    top: 0px;
+    width: 10px;
+    display: block;
+    text-align: center;
+  }
+}
