@@ -1,5 +1,6 @@
 import { Switch, Redirect, withRouter, NavLink } from 'react-router-dom';
 import React, { Suspense } from 'react';
+import { useSelector } from 'react-redux';
 import AuthRoute from './hoc/AuthRoute';
 import logo from './assets/images/logo.png';
 import css from './App.module.scss';
@@ -40,6 +41,8 @@ const menuIsActive = (match, location) => {
 const App = props => {
   //TODO
   let isAuthenticated = true;
+  const loading = useSelector(state => state.main.loading);
+  const snackbar = useSelector(state => state.main.snackbar);
 
   //路由设置
   let routes = (
@@ -122,6 +125,7 @@ const App = props => {
           </ul>
         </div>
       </div>
+
       <div className={css.rightContainer}>
         <div className={css.topBar}>
           <img
@@ -146,6 +150,23 @@ const App = props => {
           <div className={css.main}>{routes}</div>
         </div>
       </div>
+
+      {snackbar.type && (
+        <div
+          className={[
+            css.snackBar,
+            snackbar.type === 'error' ? css.error : css.success
+          ].join(' ')}
+        >
+          {snackbar.msg}
+        </div>
+      )}
+
+      {loading && (
+        <div className={css.loading}>
+          <div className={css.content}>Loading...</div>
+        </div>
+      )}
     </div>
   ) : (
     routes
