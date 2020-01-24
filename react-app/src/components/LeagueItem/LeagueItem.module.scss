@@ -1,5 +1,5 @@
 @import '../../index.scss';
 
 .item {
-  @include itemFunc(150px);
+  @include itemFunc(160px, 95px);
 }

@@ -13,20 +13,24 @@ import {
   param,
 } from '@loopback/rest';
 import {EaPlayer, EaLeague, EaClub, EaNation} from '../models';
-import {EaPlayerRepository, EaLeagueRepository, EaClubRepository, EaNationRepository} from '../repositories';
+import {
+  EaPlayerRepository,
+  EaLeagueRepository,
+  EaClubRepository,
+  EaNationRepository,
+} from '../repositories';
 
 export class EaPlayerController {
   constructor(
-      @repository(EaPlayerRepository)
-      public eaPlayerRepository: EaPlayerRepository,
-      @repository(EaLeagueRepository)
-      public eaLeagueRepository: EaLeagueRepository,
-      @repository(EaClubRepository)
-      public eaClubRepository: EaClubRepository,
-      @repository(EaNationRepository)
-      public eaNationRepository: EaNationRepository,
-  ) {
-  }
+    @repository(EaPlayerRepository)
+    public eaPlayerRepository: EaPlayerRepository,
+    @repository(EaLeagueRepository)
+    public eaLeagueRepository: EaLeagueRepository,
+    @repository(EaClubRepository)
+    public eaClubRepository: EaClubRepository,
+    @repository(EaNationRepository)
+    public eaNationRepository: EaNationRepository,
+  ) {}
 
   @get('/ea-players/count', {
     responses: {
@@ -37,8 +41,8 @@ export class EaPlayerController {
     },
   })
   async count(
-      @param.query.object('where', getWhereSchemaFor(EaPlayer))
-          where?: Where<EaPlayer>,
+    @param.query.object('where', getWhereSchemaFor(EaPlayer))
+    where?: Where<EaPlayer>,
   ): Promise<Count> {
     return this.eaPlayerRepository.count(where);
   }
@@ -59,12 +63,11 @@ export class EaPlayerController {
     },
   })
   async findPlayers(
-      @param.query.object('filter', getFilterSchemaFor(EaPlayer))
-          filter?: Filter<EaPlayer>,
+    @param.query.object('filter', getFilterSchemaFor(EaPlayer))
+    filter?: Filter<EaPlayer>,
   ): Promise<EaPlayer[]> {
     return this.eaPlayerRepository.find(filter);
   }
-
 
   @get('/ea-players/league-club', {
     responses: {
@@ -82,40 +85,39 @@ export class EaPlayerController {
     },
   })
   async findLeagueClub(): Promise<EaPlayer[]> {
-    let totalPages = 218;
+    // let totalPages = 218;
 
-    for (let i: number = 0; i <= totalPages; i++) {
-      console.log('循环了' + i + '遍');
-      let filter: Filter = {fields: {league: true, club: true}, limit: 100, offset: i * 100};
-      let players: EaPlayer[] = await this.eaPlayerRepository.find(filter);
-      for (let item of players) {
-        let league: EaLeague = item.league;
-        let club: EaClub = item.club;
-        club.leagueId = league.id;
+    // for (let i: number = 0; i <= totalPages; i++) {
+    //   console.log('循环了' + i + '遍');
+    //   let filter: Filter = {fields: {league: true, club: true}, limit: 100, offset: i * 100};
+    //   let players: EaPlayer[] = await this.eaPlayerRepository.find(filter);
+    //   for (let item of players) {
+    //     let league: EaLeague = item.league;
+    //     let club: EaClub = item.club;
+    //     club.leagueId = league.id;
 
-        let haveLeague = await this.eaLeagueRepository.count({id: league.id});
-        if (haveLeague.count == 0) {
-          //如果联赛不存在
-          await this.eaLeagueRepository.create(league);
-          console.log('添加了一条league', league.abbrName);
+    //     let haveLeague = await this.eaLeagueRepository.count({id: league.id});
+    //     if (haveLeague.count == 0) {
+    //       //如果联赛不存在
+    //       await this.eaLeagueRepository.create(league);
+    //       console.log('添加了一条league', league.abbrName);
 
-          await this.eaClubRepository.create(club);
-          console.log('添加了一条club', league.abbrName);
-        } else {
-          let haveClub = await this.eaClubRepository.count({id: club.id});
-          if (haveClub.count == 0) {
-            //如果俱乐部不存在
-            await this.eaClubRepository.create(club);
-            console.log('联赛已存在 添加了一条club', league.abbrName);
-          }
+    //       await this.eaClubRepository.create(club);
+    //       console.log('添加了一条club', league.abbrName);
+    //     } else {
+    //       let haveClub = await this.eaClubRepository.count({id: club.id});
+    //       if (haveClub.count == 0) {
+    //         //如果俱乐部不存在
+    //         await this.eaClubRepository.create(club);
+    //         console.log('联赛已存在 添加了一条club', league.abbrName);
+    //       }
 
-        }
-      }
-    }
+    //     }
+    //   }
+    // }
 
     return [];
   }
-
 
   @get('/ea-players/nations', {
     responses: {
@@ -133,23 +135,23 @@ export class EaPlayerController {
     },
   })
   async findNations(): Promise<EaPlayer[]> {
-    let totalPages = 218;
+    // let totalPages = 218;
 
-    for (let i: number = 0; i <= totalPages; i++) {
-      console.log('循环了' + i + '遍');
-      let filter: Filter = {fields: {nation: true}, limit: 100, offset: i * 100};
-      let players: EaPlayer[] = await this.eaPlayerRepository.find(filter);
-      for (let item of players) {
-        let nation: EaNation = item.nation;
+    // for (let i: number = 0; i <= totalPages; i++) {
+    //   console.log('循环了' + i + '遍');
+    //   let filter: Filter = {fields: {nation: true}, limit: 100, offset: i * 100};
+    //   let players: EaPlayer[] = await this.eaPlayerRepository.find(filter);
+    //   for (let item of players) {
+    //     let nation: EaNation = item.nation;
 
-        let haveNation = await this.eaNationRepository.count({id: nation.id});
-        if (haveNation.count == 0) {
-          //如果国籍不存在
-          await this.eaNationRepository.create(nation);
-          console.log('添加了一条nation', nation.abbrName);
-        }
-      }
-    }
+    //     let haveNation = await this.eaNationRepository.count({id: nation.id});
+    //     if (haveNation.count == 0) {
+    //       //如果国籍不存在
+    //       await this.eaNationRepository.create(nation);
+    //       console.log('添加了一条nation', nation.abbrName);
+    //     }
+    //   }
+    // }
 
     return [];
   }

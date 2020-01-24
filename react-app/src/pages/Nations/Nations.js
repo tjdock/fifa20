@@ -15,10 +15,22 @@ const Nations = props => {
     onGetNations();
   }, [onGetNations]);
 
+  const selectHandler = nation => {
+    console.log(nation);
+    dispatch(actions.setSelectedNation(nation));
+  };
+
   return (
     <div className="d-flex f-wrap">
       {nations.map(nation => {
-        return <NationItem key={nation.id} />;
+        return (
+          <NationItem
+            key={nation.id}
+            name={nation.name}
+            imgUrl={nation.imageUrls.small}
+            select={() => selectHandler(nation)}
+          />
+        );
       })}
     </div>
   );

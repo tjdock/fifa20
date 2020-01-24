@@ -3,11 +3,10 @@ import css from './ClubItem.module.scss';
 const ClubItem = props => {
   return (
     <div className={css.item}>
-      <img
-        src="https://futhead.cursecdn.com/static/img/20/clubs/111774.png"
-        alt="club"
-      />
-      <span className={css.title}>Tianjin Teda</span>
+      <img src={props.imgUrl} alt="club" onClick={props.select} />
+      <span className={css.title} onClick={props.select}>
+        {props.name}
+      </span>
       <a href="/" className={css.delete}>
         x
       </a>

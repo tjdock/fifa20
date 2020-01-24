@@ -1,8 +1,33 @@
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import * as actions from '../../store/action';
 import css from './Players.module.scss';
+import PlayerItem from '../../components/PlayerItem/PlayerItem';
 
 const Players = props => {
-  return (
+  const players = useSelector(state => state.player.players);
+  const selectedLeague = useSelector(state => state.league.selectedLeague);
+  const selectedClub = useSelector(state => state.club.selectedClub);
+  const selectedNation = useSelector(state => state.nation.selectedNation);
+
+  const dispatch = useDispatch();
+  const onGetPlayers = useCallback(
+    (leagueId, clubId, nationId) =>
+      dispatch(actions.getPlayers(leagueId, clubId, nationId)),
+    [dispatch]
+  );
+
+  useEffect(() => {
+    if (selectedLeague && selectedClub) {
+      onGetPlayers(
+        selectedLeague.id,
+        selectedClub.id,
+        selectedNation ? selectedNation.id : null
+      );
+    }
+  }, [onGetPlayers, selectedLeague, selectedClub, selectedNation]);
+
+  return selectedClub && selectedLeague ? (
     <table className={css.table}>
       <thead>
         <tr>
@@ -21,67 +46,17 @@ const Players = props => {
           <th className={css.fixed}>W/R</th>
           <th className={css.fixed}>FOOT</th>
           <th className={css.fixed}>HEIGHT</th>
+          <th className={css.fixed}>AGE</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td className={css.fixed}>
-            <img
-              alt="avatar"
-              className={css.avatar}
-              src="https://futhead.cursecdn.com/static/img/20/players/213013.png"
-            />
-          </td>
-          <td>
-            <div className={css.name}>Frank Acheampong</div>
-            <div className={css.tags}>
-              <img
-                alt="nation"
-                className={css.nationImg}
-                src="https://futhead.cursecdn.com/static/img/20/nations/21.png"
-              />
-              <img
-                alt="league"
-                className={css.leagueImg}
-                src="https://futhead.cursecdn.com/static/img/20/leagues/2012.png"
-              />
-              <img
-                alt="club"
-                className={css.clubImg}
-                src="https://futhead.cursecdn.com/static/img/20/clubs/111774.png"
-              />
-            </div>
-          </td>
-          <td className={css.fixed}>
-            <span className={[css.rat, css.bronze].join(' ')}>77</span>
-          </td>
-          <td className={css.fixed}>CF</td>
-          <td className={css.fixed}>
-            <span className={[css.rat, css.color90].join(' ')}>94</span>
-          </td>
-          <td className={css.fixed}>
-            <span className={[css.rat, css.color80].join(' ')}>84</span>
-          </td>
-          <td className={css.fixed}>
-            <span className={[css.rat, css.color70].join(' ')}>74</span>
-          </td>
-          <td className={css.fixed}>
-            <span className={[css.rat, css.color5060].join(' ')}>55</span>
-          </td>
-          <td className={css.fixed}>
-            <span className={[css.rat, css.color40].join(' ')}>44</span>
-          </td>
-          <td className={css.fixed}>
-            <span className={[css.rat, css.color90].join(' ')}>94</span>
-          </td>
-          <td className={css.fixed}>4*</td>
-          <td className={css.fixed}>3*</td>
-          <td className={css.fixed}>H / L</td>
-          <td className={css.fixed}>R</td>
-          <td className={css.fixed}>168cm</td>
-        </tr>
+        {players.map(player => {
+          return <PlayerItem key={player.id} player={player} />;
+        })}
       </tbody>
     </table>
+  ) : (
+    <p>please select a league and a club</p>
   );
 };
 

@@ -1,6 +1,7 @@
 import { Switch, Redirect, withRouter, NavLink } from 'react-router-dom';
 import React, { Suspense } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import * as actions from './store/action';
 import AuthRoute from './hoc/AuthRoute';
 import logo from './assets/images/logo.png';
 import css from './App.module.scss';
@@ -43,6 +44,15 @@ const App = props => {
   let isAuthenticated = true;
   const loading = useSelector(state => state.main.loading);
   const snackbar = useSelector(state => state.main.snackbar);
+  const selectedNation = useSelector(state => state.nation.selectedNation);
+  const selectedLeague = useSelector(state => state.league.selectedLeague);
+  const selectedClub = useSelector(state => state.club.selectedClub);
+  const dispatch = useDispatch();
+
+  //取消国籍过滤
+  const deselectNation = () => {
+    dispatch(actions.setSelectedNation(null));
+  };
 
   //路由设置
   let routes = (
@@ -103,11 +113,6 @@ const App = props => {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/nations" exact activeClassName={css.active}>
-                Nations
-              </NavLink>
-            </li>
-            <li>
               <NavLink to="/leagues" exact activeClassName={css.active}>
                 Leagues
               </NavLink>
@@ -115,6 +120,11 @@ const App = props => {
             <li>
               <NavLink to="/clubs" exact activeClassName={css.active}>
                 Clubs
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/nations" exact activeClassName={css.active}>
+                Nations
               </NavLink>
             </li>
             <li>
@@ -128,21 +138,31 @@ const App = props => {
 
       <div className={css.rightContainer}>
         <div className={css.topBar}>
-          <img
-            alt="nation"
-            className={css.filter}
-            src="https://futhead.cursecdn.com/static/img/20/nations/21.png"
-          />
-          <img
-            alt="league"
-            className={css.filter}
-            src="https://futhead.cursecdn.com/static/img/20/leagues/2012.png"
-          />
-          <img
-            alt="club"
-            className={css.filter}
-            src="https://futhead.cursecdn.com/static/img/20/clubs/111774.png"
-          />
+          {selectedLeague && (
+            <img
+              alt="league"
+              className={css.filter}
+              src={selectedLeague.imageUrls.light}
+            />
+          )}
+
+          {selectedClub && (
+            <img
+              alt="club"
+              className={css.filter}
+              src={selectedClub.imageUrls.light.small}
+            />
+          )}
+
+          {selectedNation && (
+            <img
+              alt="nation"
+              className={css.filter}
+              src={selectedNation.imageUrls.small}
+              onClick={deselectNation}
+            />
+          )}
+
           <div className={css.spacer}></div>
           <NavLink to="/logout">logout</NavLink>
         </div>

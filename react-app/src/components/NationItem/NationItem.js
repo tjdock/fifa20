@@ -3,11 +3,10 @@ import css from './NationItem.module.scss';
 const NationItem = props => {
   return (
     <div className={css.item}>
-      <img
-        src="https://futhead.cursecdn.com/static/img/20/nations/21.png"
-        alt="nation"
-      />
-      <span className={css.title}>Germany</span>
+      <img src={props.imgUrl} alt="nation" onClick={props.select} />
+      <span className={css.title} onClick={props.select}>
+        {props.name}
+      </span>
       <a href="/" className={css.delete}>
         x
       </a>

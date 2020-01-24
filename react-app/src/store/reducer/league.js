@@ -1,21 +1,21 @@
 import * as actionTypes from '../action/types';
 
 const initialState = {
-  nations: [],
-  selectedNation: null
+  leagues: [],
+  selectedLeague: null
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.GET_NATIONS_SUCCESS:
+    case actionTypes.GET_LEAGUES_SUCCESS:
       return {
         ...state,
-        nations: action.nations
+        leagues: action.leagues
       };
-    case actionTypes.SET_SELECTED_NATION:
+    case actionTypes.SET_SELECTED_LEAGUE:
       return {
         ...state,
-        selectedNation: action.nation
+        selectedLeague: action.league
       };
     default:
       return state;

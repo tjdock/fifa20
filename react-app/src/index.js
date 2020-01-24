@@ -23,12 +23,23 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 
 import mainReducer from './store/reducer/main';
 import nationReducer from './store/reducer/nation';
-import { watchNations } from './store/saga';
+import leagueReducer from './store/reducer/league';
+import clubReducer from './store/reducer/club';
+import playerReducer from './store/reducer/player';
+import {
+  watchNations,
+  watchLeagues,
+  watchClubs,
+  watchPlayers
+} from './store/saga';
 
 /*redux settings*/
 const rootReducer = combineReducers({
   main: mainReducer,
-  nation: nationReducer
+  nation: nationReducer,
+  league: leagueReducer,
+  club: clubReducer,
+  player: playerReducer
 });
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -36,6 +47,9 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(thunk, sagaMiddleware))
 );
 sagaMiddleware.run(watchNations);
+sagaMiddleware.run(watchLeagues);
+sagaMiddleware.run(watchClubs);
+sagaMiddleware.run(watchPlayers);
 
 /*axios settings*/
 axios.defaults.baseURL = API_URL;

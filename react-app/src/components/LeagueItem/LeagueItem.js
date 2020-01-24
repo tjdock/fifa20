@@ -3,11 +3,12 @@ import css from './LeagueItem.module.scss';
 const LeagueItem = props => {
   return (
     <div className={css.item}>
-      <img
-        src="https://futhead.cursecdn.com/static/img/20/leagues/2012.png"
-        alt="league"
-      />
-      <span className={css.title}>CLS</span>
+      <img src={props.imgUrl} alt="league" onClick={props.select} />
+      <span className={css.title} onClick={props.select}>
+        [{props.abbrName}] <br />
+        {props.name}
+      </span>
+
       <a href="/" className={css.delete}>
         x
       </a>

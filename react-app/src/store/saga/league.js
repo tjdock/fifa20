@@ -3,11 +3,11 @@ import axios from 'axios';
 import * as actions from '../action/index';
 
 //获取所有国籍
-export function* getNationsSaga() {
+export function* getLeaguesSaga() {
   yield put(actions.startLoading());
   try {
-    const response = yield axios.get('/ea-nations?filter[order]=name asc');
-    yield put(actions.getNationsSuccess(response.data));
+    const response = yield axios.get('/ea-leagues?filter[order]=abbrName asc');
+    yield put(actions.getLeaguesSuccess(response.data));
     yield put(actions.stopLoading());
   } catch (error) {
     yield put(actions.showSnackbar('error', error.message));

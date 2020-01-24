@@ -10,3 +10,5 @@ https://www.easports.com/fifa/ultimate-team/api/fut/item?name=Zidane
 可选参数查询[id,name,position...]
 https://www.easports.com/fifa/ultimate-team/api/fut/item?page=1
 https://www.easports.com/fifa/ultimate-team/api/fut/item?league=2012&club=111774&position=GK
+
+https://www.futwiz.com/en/fifa20/squad-builder

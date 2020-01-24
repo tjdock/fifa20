@@ -1,4 +1,4 @@
-export const API_URL = 'https://jsonplaceholder.typicode.com';
+export const API_URL = 'http://localhost:1234/';
 
 export const transformRequest = data => {
   let body = '';
