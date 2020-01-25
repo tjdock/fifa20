@@ -11,4 +11,9 @@ export { getLeagues, getLeaguesSuccess, setSelectedLeague } from './league';
 
 export { getClubs, getClubsSuccess, setSelectedClub } from './club';
 
-export { getPlayers, getPlayersSuccess, setSelectedPlayer } from './player';
+export {
+  getPlayers,
+  getPlayersSuccess,
+  getPlayerDetail,
+  getPlayerDetailSuccess
+} from './player';

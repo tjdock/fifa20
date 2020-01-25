@@ -3,7 +3,7 @@ import * as actionTypes from '../action/types';
 import { getNationsSaga } from './nation';
 import { getLeaguesSaga } from './league';
 import { getClubsSaga } from './club';
-import { getPlayersSaga } from './player';
+import { getPlayersSaga, getPlayerDetailSaga } from './player';
 
 export function* watchNations() {
   yield takeEvery(actionTypes.GET_NATIONS, getNationsSaga);
@@ -19,4 +19,5 @@ export function* watchClubs() {
 
 export function* watchPlayers() {
   yield takeEvery(actionTypes.GET_PLAYERS, getPlayersSaga);
+  yield takeEvery(actionTypes.GET_PLAYER_DETAIL, getPlayerDetailSaga);
 }

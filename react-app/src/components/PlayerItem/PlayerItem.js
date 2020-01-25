@@ -29,7 +29,10 @@ const PlayerItem = props => {
     }
   };
   return (
-    <tr>
+    <tr
+      onClick={() => props.onItemClick(props.player.id)}
+      style={{ cursor: 'pointer' }}
+    >
       <td className={css.fixed}>
         <img
           alt="avatar"
@@ -95,7 +98,6 @@ const PlayerItem = props => {
       </td>
       <td className={css.fixed}>{props.player.skillMoves}*</td>
       <td className={css.fixed}>{props.player.weakFoot}*</td>
-      {/* <td className={css.fixed}>H / L</td> */}
       <td className={css.fixed}>{props.player.foot.substr(0, 1)}</td>
       <td className={css.fixed}>{props.player.height}cm</td>
       <td className={css.fixed}>{props.player.weight}kg</td>

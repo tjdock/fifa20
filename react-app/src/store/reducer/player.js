@@ -2,7 +2,7 @@ import * as actionTypes from '../action/types';
 
 const initialState = {
   players: [],
-  selectedPlayer: null
+  player: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -12,10 +12,10 @@ const reducer = (state = initialState, action) => {
         ...state,
         players: action.players
       };
-    case actionTypes.SET_SELECTED_PLAYER:
+    case actionTypes.GET_PLAYER_DETAIL_SUCCESS:
       return {
         ...state,
-        selectedPlayer: action.player
+        player: action.player
       };
     default:
       return state;

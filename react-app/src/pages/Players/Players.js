@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../store/action';
 import css from './Players.module.scss';
 import PlayerItem from '../../components/PlayerItem/PlayerItem';
+import { withRouter } from 'react-router-dom';
 
 const Players = props => {
   const players = useSelector(state => state.player.players);
@@ -27,6 +28,11 @@ const Players = props => {
     }
   }, [onGetPlayers, selectedLeague, selectedClub, selectedNation]);
 
+  const itemClickHandler = id => {
+    console.log(id);
+    props.history.push('/players/' + id);
+  };
+
   return selectedClub && selectedLeague ? (
     <table className={css.table}>
       <thead>
@@ -43,15 +49,21 @@ const Players = props => {
           <th className={css.fixed}>PHY</th>
           <th className={css.fixed}>SKI</th>
           <th className={css.fixed}>WF</th>
-          <th className={css.fixed}>W/R</th>
           <th className={css.fixed}>FOOT</th>
           <th className={css.fixed}>HEIGHT</th>
+          <th className={css.fixed}>WEIGHT</th>
           <th className={css.fixed}>AGE</th>
         </tr>
       </thead>
       <tbody>
         {players.map(player => {
-          return <PlayerItem key={player.id} player={player} />;
+          return (
+            <PlayerItem
+              key={player.id}
+              player={player}
+              onItemClick={itemClickHandler}
+            />
+          );
         })}
       </tbody>
     </table>
@@ -60,4 +72,4 @@ const Players = props => {
   );
 };
 
-export default Players;
+export default withRouter(Players);

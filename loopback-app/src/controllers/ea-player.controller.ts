@@ -69,6 +69,22 @@ export class EaPlayerController {
     return this.eaPlayerRepository.find(filter);
   }
 
+  @get('/ea-players/{id}', {
+    responses: {
+      '200': {
+        description: 'EaPlayer model instance',
+        content: {
+          'application/json': {
+            schema: getModelSchemaRef(EaPlayer, {includeRelations: true}),
+          },
+        },
+      },
+    },
+  })
+  async findById(@param.path.number('id') id: string): Promise<EaPlayer> {
+    return this.eaPlayerRepository.findById(id);
+  }
+
   @get('/ea-players/league-club', {
     responses: {
       '200': {

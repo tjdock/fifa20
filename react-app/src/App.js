@@ -30,6 +30,9 @@ const Clubs = React.lazy(() => {
 const Players = React.lazy(() => {
   return import('./pages/Players/Players');
 });
+const PlayerDetail = React.lazy(() => {
+  return import('./pages/Players/PlayerDetail');
+});
 
 //默认页高亮显示
 const menuIsActive = (match, location) => {
@@ -79,9 +82,15 @@ const App = props => {
           component={Clubs}
         ></AuthRoute>
         <AuthRoute
+          exact
           isAuthenticated={isAuthenticated}
           path="/players"
           component={Players}
+        ></AuthRoute>
+        <AuthRoute
+          isAuthenticated={isAuthenticated}
+          path="/players/:playerId"
+          component={PlayerDetail}
         ></AuthRoute>
         <AuthRoute
           exact
@@ -128,7 +137,7 @@ const App = props => {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/players" exact activeClassName={css.active}>
+              <NavLink to="/players" activeClassName={css.active}>
                 Players
               </NavLink>
             </li>

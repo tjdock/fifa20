@@ -1,0 +1,204 @@
+.details {
+  display: flex;
+  height: 100%;
+
+  .left {
+    flex: 1;
+    border-radius: 2px;
+    border-top: 3px solid #940000;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
+    margin-right: 5px;
+  }
+
+  .right {
+    flex: 3;
+    border-radius: 2px;
+    border-top: 3px solid #940000;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
+    margin-left: 5px;
+  }
+
+  .player-card {
+    width: 212px;
+    height: 315px;
+    margin: 0 auto;
+    position: relative;
+
+    &.gold {
+      background: url('https://futhead.cursecdn.com/static/img/20/cards/large/1_1_3.png')
+        center center;
+      background-size: cover;
+    }
+    &.silver {
+      background: url('https://futhead.cursecdn.com/static/img/20/cards/large/1_1_2.png')
+        center center;
+      background-size: cover;
+    }
+    &.bronze {
+      background: url('https://futhead.cursecdn.com/static/img/20/cards/large/1_1_1.png')
+        center center;
+      background-size: cover;
+    }
+
+    .avatar {
+      width: 135px;
+      height: 135px;
+      position: absolute;
+      top: 30px;
+      right: 10px;
+    }
+
+    .base {
+      display: flex;
+      flex-direction: column;
+      width: 40px;
+      height: 120px;
+      position: absolute;
+      top: 40px;
+      left: 40px;
+      align-items: center;
+      justify-content: space-between;
+
+      .rat {
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .nation {
+        width: 30px;
+        height: 18px;
+      }
+      .club {
+        width: 30px;
+        height: 30px;
+      }
+    }
+
+    .name {
+      position: absolute;
+      top: 170px;
+      width: 100%;
+      text-align: center;
+
+      &::before {
+        content: '';
+        width: 100px;
+        height: 2px;
+        background: #b7a55d;
+        position: absolute;
+        top: 25px;
+        left: 55px;
+      }
+      &::after {
+        content: '';
+        width: 0.5px;
+        height: 50px;
+        background: #b7a55d;
+        position: absolute;
+        top: 35px;
+        left: 104px;
+      }
+    }
+
+    .data-left {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      left: 45px;
+      bottom: 55px;
+      font-size: 14px;
+    }
+
+    .data-right {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      right: 45px;
+      bottom: 55px;
+      font-size: 14px;
+    }
+  }
+
+  .grid {
+    padding: 8px;
+    font-size: 13px;
+
+    .row {
+      display: flex;
+      border-bottom: 1px solid #eee;
+      height: 30px;
+      line-height: 30px;
+
+      .col {
+        flex: 1;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        &.label {
+          color: #999;
+        }
+      }
+    }
+  }
+
+  .icon-star {
+    &::before {
+      content: '*';
+      color: #bc9600;
+      font-weight: bold;
+    }
+  }
+
+  .summary {
+    display: flex;
+    padding: 20px 0;
+
+    .summary-item {
+      flex: 1;
+      padding: 0 6px;
+
+      svg {
+        display: block;
+        margin: 10px auto;
+      }
+
+      &:not(:last-child) {
+        border-right: 1px solid #ddd;
+      }
+
+      .row {
+        display: flex;
+        font-size: 12px;
+        height: 30px;
+
+        .col4 {
+          flex: 4;
+        }
+        .col1 {
+          flex: 1;
+          text-align: right;
+          &.color90 {
+            color: #007e33;
+          }
+          &.color80 {
+            color: #4caf50;
+          }
+          &.color70 {
+            color: #fbc02d;
+          }
+          &.color5060 {
+            color: #fb8c00;
+          }
+          &.color40 {
+            color: #f44336;
+          }
+        }
+      }
+    }
+
+    .title {
+      font-size: 14px;
+      font-weight: bold;
+      text-align: center;
+    }
+  }
+}

@@ -17,3 +17,15 @@ export function* getPlayersSaga(action) {
     yield put(actions.showSnackbar('error', error.message));
   }
 }
+
+//获取球员详情
+export function* getPlayerDetailSaga(action) {
+  yield put(actions.startLoading());
+  try {
+    const response = yield axios.get(`/ea-players/${action.playerId}`);
+    yield put(actions.getPlayerDetailSuccess(response.data));
+    yield put(actions.stopLoading());
+  } catch (error) {
+    yield put(actions.showSnackbar('error', error.message));
+  }
+}
