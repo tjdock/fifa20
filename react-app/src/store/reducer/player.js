@@ -17,6 +17,17 @@ const reducer = (state = initialState, action) => {
         ...state,
         player: action.player
       };
+    case actionTypes.SORT_PLAYERS:
+      const updatedPlayers = [...state.players];
+      updatedPlayers.sort((a, b) => {
+        let diff =
+          a.attributes[action.index].value - b.attributes[action.index].value;
+        return action.sorting === 'asc' ? diff : -diff;
+      });
+      return {
+        ...state,
+        players: updatedPlayers
+      };
     default:
       return state;
   }

@@ -5,7 +5,7 @@ import * as actions from '../action/index';
 //获取所有球员
 export function* getPlayersSaga(action) {
   yield put(actions.startLoading());
-  let url = `/ea-players?filter[where][league.id]=${action.leagueId}&filter[where][club.id]=${action.clubId}&filter[order]=name asc`;
+  let url = `/ea-players?filter[where][league.id]=${action.leagueId}&filter[where][club.id]=${action.clubId}&filter[order]=${action.sortingName} ${action.sorting}`;
   if (action.nationId) {
     url += `&filter[where][nation.id]=${action.nationId}`;
   }

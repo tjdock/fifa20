@@ -43,7 +43,7 @@ export class EaPlayer extends Entity {
   @property({type: 'string'}) foot: string; //左右脚
   @property({type: 'number'}) freekickaccuracy: number; //任意球精准度 (PAS)
   @property({type: 'number'}) gkdiving: number; //扑球
-  @property({type: 'number'}) gkhandling: number; //？
+  @property({type: 'number'}) gkhandling: number; //抱球
   @property({type: 'number'}) gkkicking: number; //守门员脚法
   @property({type: 'number'}) gkpositioning: number; //守门员位置感
   @property({type: 'number'}) gkreflexes: number; //守门员反应

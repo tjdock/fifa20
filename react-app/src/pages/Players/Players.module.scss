@@ -5,6 +5,33 @@
   width: 100%;
   font-size: 14px;
 
+  th {
+    position: relative;
+    cursor: pointer;
+    &.asc::after {
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 2px solid transparent;
+      border-right: 2px solid transparent;
+      border-bottom: 4px solid black;
+      position: absolute;
+      top: 8px;
+      margin-left: 5px;
+    }
+    &.desc::after {
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 2px solid transparent;
+      border-right: 2px solid transparent;
+      border-top: 4px solid black;
+      position: absolute;
+      top: 8px;
+      margin-left: 5px;
+    }
+  }
+
   tr {
     border-bottom: 1px solid #ccc;
   }

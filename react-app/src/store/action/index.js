@@ -15,5 +15,6 @@ export {
   getPlayers,
   getPlayersSuccess,
   getPlayerDetail,
-  getPlayerDetailSuccess
+  getPlayerDetailSuccess,
+  sortPlayers
 } from './player';
