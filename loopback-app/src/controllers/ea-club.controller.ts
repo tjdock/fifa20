@@ -19,11 +19,13 @@ import {
 } from '@loopback/rest';
 import {EaClub} from '../models';
 import {EaClubRepository} from '../repositories';
+import {authenticate} from '@loopback/authentication';
+import {OPERATION_SECURITY_SPEC} from '../utils/security-spec';
 
 export class EaClubController {
   constructor(
     @repository(EaClubRepository)
-    public eaClubRepository : EaClubRepository,
+    public eaClubRepository: EaClubRepository,
   ) {}
 
   @post('/ea-clubs', {
@@ -47,12 +49,14 @@ export class EaClubController {
     },
   })
   async count(
-    @param.query.object('where', getWhereSchemaFor(EaClub)) where?: Where<EaClub>,
+    @param.query.object('where', getWhereSchemaFor(EaClub))
+    where?: Where<EaClub>,
   ): Promise<Count> {
     return this.eaClubRepository.count(where);
   }
 
   @get('/ea-clubs', {
+    security: OPERATION_SECURITY_SPEC,
     responses: {
       '200': {
         description: 'Array of EaClub model instances',
@@ -67,12 +71,13 @@ export class EaClubController {
       },
     },
   })
+  @authenticate('jwt')
   async find(
-    @param.query.object('filter', getFilterSchemaFor(EaClub)) filter?: Filter<EaClub>,
+    @param.query.object('filter', getFilterSchemaFor(EaClub))
+    filter?: Filter<EaClub>,
   ): Promise<EaClub[]> {
     return this.eaClubRepository.find(filter);
   }
-
 
   @get('/ea-clubs/{id}', {
     responses: {
@@ -88,9 +93,9 @@ export class EaClubController {
   })
   async findById(
     @param.path.number('id') id: number,
-    @param.query.object('filter', getFilterSchemaFor(EaClub)) filter?: Filter<EaClub>
+    @param.query.object('filter', getFilterSchemaFor(EaClub))
+    filter?: Filter<EaClub>,
   ): Promise<EaClub> {
     return this.eaClubRepository.findById(id, filter);
   }
-
 }

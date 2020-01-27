@@ -97,7 +97,17 @@ index.js 可以修改端口
 ? What is the type of your ID? number<br>
 ? What is the base HTTP path name of the CRUD operations? /dics<br>
 
-## 三.其他说明
+## 三.验证
+
+[详细说明](https://loopback.io/doc/en/lb4/Authentication-Tutorial.html)
+
+### 1.安装
+
+`npm install --save bcryptjs jsonwebtoken @loopback/authentication`
+
+`npm install --save-dev @types/bcryptjs @types/jsonwebtoken`
+
+## 四.其他说明
 
 ### 1.CRUD
 

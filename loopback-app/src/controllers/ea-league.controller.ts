@@ -17,8 +17,10 @@ import {
   del,
   requestBody,
 } from '@loopback/rest';
-import { EaLeague} from '../models';
+import {EaLeague} from '../models';
 import {EaLeagueRepository} from '../repositories';
+import {authenticate} from '@loopback/authentication';
+import {OPERATION_SECURITY_SPEC} from '../utils/security-spec';
 
 export class EaLeagueController {
   constructor(
@@ -54,6 +56,7 @@ export class EaLeagueController {
   }
 
   @get('/ea-leagues', {
+    security: OPERATION_SECURITY_SPEC,
     responses: {
       '200': {
         description: 'Array of EaLeague model instances',
@@ -68,6 +71,7 @@ export class EaLeagueController {
       },
     },
   })
+  @authenticate('jwt')
   async find(
     @param.query.object('filter', getFilterSchemaFor(EaLeague))
     filter?: Filter<EaLeague>,
@@ -87,9 +91,7 @@ export class EaLeagueController {
       },
     },
   })
-  async findById(
-      @param.path.number('id') id: number
-  ): Promise<EaLeague> {
+  async findById(@param.path.number('id') id: number): Promise<EaLeague> {
     return this.eaLeagueRepository.findById(id);
   }
 }

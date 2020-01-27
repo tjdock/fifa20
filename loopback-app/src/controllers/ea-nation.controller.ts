@@ -19,13 +19,14 @@ import {
 } from '@loopback/rest';
 import {EaNation} from '../models';
 import {EaNationRepository} from '../repositories';
+import {authenticate} from '@loopback/authentication';
+import {OPERATION_SECURITY_SPEC} from '../utils/security-spec';
 
 export class EaNationController {
   constructor(
-      @repository(EaNationRepository)
-      public eaNationRepository: EaNationRepository,
-  ) {
-  }
+    @repository(EaNationRepository)
+    public eaNationRepository: EaNationRepository,
+  ) {}
 
   @post('/ea-nations', {
     responses: {
@@ -35,8 +36,7 @@ export class EaNationController {
       },
     },
   })
-  async create(
-      @requestBody()eaNation: EaNation): Promise<EaNation> {
+  async create(@requestBody() eaNation: EaNation): Promise<EaNation> {
     return this.eaNationRepository.create(eaNation);
   }
 
@@ -49,12 +49,14 @@ export class EaNationController {
     },
   })
   async count(
-      @param.query.object('where', getWhereSchemaFor(EaNation)) where?: Where<EaNation>,
+    @param.query.object('where', getWhereSchemaFor(EaNation))
+    where?: Where<EaNation>,
   ): Promise<Count> {
     return this.eaNationRepository.count(where);
   }
 
   @get('/ea-nations', {
+    security: OPERATION_SECURITY_SPEC,
     responses: {
       '200': {
         description: 'Array of EaNation model instances',
@@ -69,12 +71,13 @@ export class EaNationController {
       },
     },
   })
+  @authenticate('jwt')
   async find(
-      @param.query.object('filter', getFilterSchemaFor(EaNation)) filter?: Filter<EaNation>,
+    @param.query.object('filter', getFilterSchemaFor(EaNation))
+    filter?: Filter<EaNation>,
   ): Promise<EaNation[]> {
     return this.eaNationRepository.find(filter);
   }
-
 
   @get('/ea-nations/{id}', {
     responses: {
@@ -89,10 +92,10 @@ export class EaNationController {
     },
   })
   async findById(
-      @param.path.number('id') id: number,
-      @param.query.object('filter', getFilterSchemaFor(EaNation)) filter?: Filter<EaNation>
+    @param.path.number('id') id: number,
+    @param.query.object('filter', getFilterSchemaFor(EaNation))
+    filter?: Filter<EaNation>,
   ): Promise<EaNation> {
     return this.eaNationRepository.findById(id, filter);
   }
-
 }

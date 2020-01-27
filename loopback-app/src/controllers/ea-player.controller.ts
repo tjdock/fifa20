@@ -19,6 +19,8 @@ import {
   EaClubRepository,
   EaNationRepository,
 } from '../repositories';
+import {authenticate} from '@loopback/authentication';
+import {OPERATION_SECURITY_SPEC} from '../utils/security-spec';
 
 export class EaPlayerController {
   constructor(
@@ -48,6 +50,7 @@ export class EaPlayerController {
   }
 
   @get('/ea-players', {
+    security: OPERATION_SECURITY_SPEC,
     responses: {
       '200': {
         description: '获取所有球员信息',
@@ -62,6 +65,7 @@ export class EaPlayerController {
       },
     },
   })
+  @authenticate('jwt')
   async findPlayers(
     @param.query.object('filter', getFilterSchemaFor(EaPlayer))
     filter?: Filter<EaPlayer>,
@@ -70,6 +74,7 @@ export class EaPlayerController {
   }
 
   @get('/ea-players/{id}', {
+    security: OPERATION_SECURITY_SPEC,
     responses: {
       '200': {
         description: 'EaPlayer model instance',
@@ -81,6 +86,7 @@ export class EaPlayerController {
       },
     },
   })
+  @authenticate('jwt')
   async findById(@param.path.number('id') id: string): Promise<EaPlayer> {
     return this.eaPlayerRepository.findById(id);
   }
