@@ -101,7 +101,7 @@ index.js 可以修改端口
 
 [详细说明](https://loopback.io/doc/en/lb4/Authentication-Tutorial.html)
 
-### 1.安装
+### 安装
 
 `npm install --save bcryptjs jsonwebtoken @loopback/authentication`
 
