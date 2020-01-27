@@ -1,6 +1,7 @@
 import { put } from 'redux-saga/effects';
 import axios from 'axios';
 import * as actions from '../action/index';
+import { AUTH_HEADERS } from '../../shared/Consts';
 
 //获取所有球员
 export function* getPlayersSaga(action) {
@@ -10,7 +11,7 @@ export function* getPlayersSaga(action) {
     url += `&filter[where][nation.id]=${action.nationId}`;
   }
   try {
-    const response = yield axios.get(url);
+    const response = yield axios.get(url, AUTH_HEADERS());
     yield put(actions.getPlayersSuccess(response.data));
     yield put(actions.stopLoading());
   } catch (error) {
@@ -22,7 +23,10 @@ export function* getPlayersSaga(action) {
 export function* getPlayerDetailSaga(action) {
   yield put(actions.startLoading());
   try {
-    const response = yield axios.get(`/ea-players/${action.playerId}`);
+    const response = yield axios.get(
+      `/ea-players/${action.playerId}`,
+      AUTH_HEADERS()
+    );
     yield put(actions.getPlayerDetailSuccess(response.data));
     yield put(actions.stopLoading());
   } catch (error) {

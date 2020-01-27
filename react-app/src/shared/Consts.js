@@ -15,3 +15,14 @@ export const transformRequest = data => {
   body = body.replace(/&$/g, '');
   return body;
 };
+
+export const AUTH_HEADERS = () => {
+  const token_type = localStorage.getItem('token_type');
+  const access_token = localStorage.getItem('access_token');
+
+  return {
+    headers: {
+      Authorization: `${token_type} ${access_token}`
+    }
+  };
+};

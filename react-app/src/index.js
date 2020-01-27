@@ -22,11 +22,13 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 
 import mainReducer from './store/reducer/main';
+import userReducer from './store/reducer/user';
 import nationReducer from './store/reducer/nation';
 import leagueReducer from './store/reducer/league';
 import clubReducer from './store/reducer/club';
 import playerReducer from './store/reducer/player';
 import {
+  watchUsers,
   watchNations,
   watchLeagues,
   watchClubs,
@@ -36,6 +38,7 @@ import {
 /*redux settings*/
 const rootReducer = combineReducers({
   main: mainReducer,
+  user: userReducer,
   nation: nationReducer,
   league: leagueReducer,
   club: clubReducer,
@@ -46,6 +49,7 @@ const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(thunk, sagaMiddleware))
 );
+sagaMiddleware.run(watchUsers);
 sagaMiddleware.run(watchNations);
 sagaMiddleware.run(watchLeagues);
 sagaMiddleware.run(watchClubs);

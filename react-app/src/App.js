@@ -1,4 +1,4 @@
-import { Switch, Redirect, withRouter, NavLink } from 'react-router-dom';
+import { Switch, Redirect, withRouter, NavLink, Route } from 'react-router-dom';
 import React, { Suspense } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as actions from './store/action';
@@ -9,6 +9,10 @@ import css from './App.module.scss';
 //Login
 const Login = React.lazy(() => {
   return import('./pages/Login/Login');
+});
+//Logout
+const Logout = React.lazy(() => {
+  return import('./pages/Logout/Logout');
 });
 //Positions
 const Positions = React.lazy(() => {
@@ -44,7 +48,9 @@ const menuIsActive = (match, location) => {
 };
 const App = props => {
   //TODO
-  let isAuthenticated = true;
+  const token = useSelector(state => state.user.token);
+  const isAuthenticated = token != null;
+
   const loading = useSelector(state => state.main.loading);
   const snackbar = useSelector(state => state.main.snackbar);
   const selectedNation = useSelector(state => state.nation.selectedNation);
@@ -92,6 +98,7 @@ const App = props => {
           path="/players/:playerId"
           component={PlayerDetail}
         ></AuthRoute>
+        <Route path="/logout" component={Logout} />
         <AuthRoute
           exact
           isAuthenticated={isAuthenticated}
