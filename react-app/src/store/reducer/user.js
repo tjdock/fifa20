@@ -19,6 +19,7 @@ const reducer = (state = initialState, action) => {
       };
 
     case actionTypes.TRY_AUTO_LOGIN:
+      console.log('try auto login');
       return {
         ...state,
         token: localStorage.getItem('access_token')

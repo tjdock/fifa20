@@ -17,6 +17,6 @@ export function* loginSaga(action) {
     //yield put(actions.stopLoading());
   } catch (error) {
     //yield put(actions.showSnackbar('error', error.message));
-    console.log(error.message);
+    alert('Invalid email or password.');
   }
 }

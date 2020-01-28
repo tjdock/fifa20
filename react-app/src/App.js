@@ -1,5 +1,5 @@
 import { Switch, Redirect, withRouter, NavLink, Route } from 'react-router-dom';
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as actions from './store/action';
 import AuthRoute from './hoc/AuthRoute';
@@ -47,7 +47,6 @@ const menuIsActive = (match, location) => {
   }
 };
 const App = props => {
-  //TODO
   const token = useSelector(state => state.user.token);
   const isAuthenticated = token != null;
 
@@ -57,6 +56,10 @@ const App = props => {
   const selectedLeague = useSelector(state => state.league.selectedLeague);
   const selectedClub = useSelector(state => state.club.selectedClub);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(actions.tryAutoLogin());
+  }, [dispatch]);
 
   //取消国籍过滤
   const deselectNation = () => {
