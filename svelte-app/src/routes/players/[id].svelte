@@ -1,0 +1,321 @@
+<style>
+  .details {
+    display: flex;
+    height: 100%;
+  }
+  .details .left {
+    flex: 1;
+    border-radius: 2px;
+    border-top: 3px solid #940000;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
+    margin-right: 5px;
+  }
+  .details .right {
+    flex: 3;
+    border-radius: 2px;
+    border-top: 3px solid #940000;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
+    margin-left: 5px;
+  }
+  .details .player-card {
+    width: 212px;
+    height: 315px;
+    background: url("https://futhead.cursecdn.com/static/img/20/cards/large/1_1_3.png")
+      center center;
+    background-size: cover;
+    margin: 0 auto;
+    position: relative;
+  }
+  .details .player-card .avatar {
+    width: 135px;
+    height: 135px;
+    position: absolute;
+    top: 30px;
+    right: 10px;
+  }
+  .details .player-card .base {
+    display: flex;
+    flex-direction: column;
+    width: 40px;
+    height: 120px;
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .details .player-card .base .rat {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  .details .player-card .base .nation {
+    width: 30px;
+    height: 18px;
+  }
+  .details .player-card .base .club {
+    width: 30px;
+    height: 30px;
+  }
+
+  .details .player-card .name {
+    position: absolute;
+    top: 170px;
+    width: 100%;
+    text-align: center;
+  }
+  .details .player-card .name::before {
+    content: "";
+    width: 100px;
+    height: 2px;
+    background: #b7a55d;
+    position: absolute;
+    top: 25px;
+    left: 55px;
+  }
+  .details .player-card .name::after {
+    content: "";
+    width: 0.5px;
+    height: 50px;
+    background: #b7a55d;
+    position: absolute;
+    top: 35px;
+    left: 104px;
+  }
+  .details .player-card .data-left {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 45px;
+    bottom: 55px;
+    font-size: 14px;
+  }
+  .details .player-card .data-right {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 45px;
+    bottom: 55px;
+    font-size: 14px;
+  }
+
+  .details .grid {
+    padding: 8px;
+    font-size: 13px;
+  }
+  .details .grid .row {
+    display: flex;
+    border-bottom: 1px solid #eee;
+    height: 30px;
+    line-height: 30px;
+  }
+  .details .grid .row .col {
+    flex: 1;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .details .grid .row .col.label {
+    color: #999;
+  }
+  .details .icon-star:before {
+    content: "*";
+    color: #bc9600;
+    font-weight: bold;
+  }
+
+  .details .summary {
+    display: flex;
+    padding: 20px 0;
+  }
+  .details .summary .summary-item {
+    flex: 1;
+    padding: 0 8px;
+  }
+  .details .summary .summary-item svg {
+    display: block;
+    margin: 10px auto;
+  }
+  .details .summary .summary-item:not(:last-child) {
+    border-right: 1px solid #ddd;
+  }
+  .details .summary .title {
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .details .summary-item .row {
+    display: flex;
+    font-size: 12px;
+    height: 30px;
+  }
+  .details .summary-item .row .col4 {
+    flex: 4;
+  }
+  .details .summary-item .row .col1 {
+    flex: 1;
+    text-align: right;
+  }
+</style>
+
+<div class="details">
+  <div class="left">
+    <div class="player-card">
+      <div class="base">
+        <span class="rat">78</span>
+        <span>ST</span>
+        <img
+          alt="nation"
+          src="https://futhead.cursecdn.com/static/img/20/nations/21.png"
+          class="nation" />
+        <img
+          alt="club"
+          src="https://futhead.cursecdn.com/static/img/20/clubs/111774.png"
+          class="club" />
+      </div>
+      <img
+        alt="avatar"
+        class="avatar"
+        src="https://futhead.cursecdn.com/static/img/20/players/184069.png" />
+      <span class="name">Wagner</span>
+      <div class="data-left">
+        <span>59 PAC</span>
+        <span>79 SHO</span>
+        <span>34 PAS</span>
+      </div>
+      <div class="data-right">
+        <span>59 DRI</span>
+        <span>79 DEF</span>
+        <span>34 PHY</span>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="row">
+        <div class="col label">Club</div>
+        <div class="col">Tianjin Teda</div>
+      </div>
+      <div class="row">
+        <div class="col label">League</div>
+        <div class="col">China Super League</div>
+      </div>
+      <div class="row">
+        <div class="col label">Nation</div>
+        <div class="col">China</div>
+      </div>
+      <div class="row">
+        <div class="col label">Strong Foot</div>
+        <div class="col">Right</div>
+      </div>
+      <div class="row">
+        <div class="col label">Skill Moves</div>
+        <div class="col">
+          <span class="icon-star" />
+          <span class="icon-star" />
+          <span class="icon-star" />
+          <span class="icon-star" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col label">Week Foot</div>
+        <div class="col">
+          <span class="icon-star" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col label">Age</div>
+        <div class="col">31 - 29/12/1982</div>
+      </div>
+      <div class="row">
+        <div class="col label">Height</div>
+        <div class="col">194cm</div>
+      </div>
+      <div class="row">
+        <div class="col label">Workrates</div>
+        <div class="col">H / L</div>
+      </div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="summary">
+      <div class="summary-item">
+        <p class="title">PACE</p>
+        <svg
+          height="50"
+          version="1.1"
+          width="104"
+          xmlns="http://www.w3.org/2000/svg">
+          <path fill="none" stroke="#ddd" stroke-width="4" id="arc1" />
+          <path fill="none" stroke="green" stroke-width="4" id="arc2" />
+          <text
+            x="50%"
+            y="75%"
+            dominant-baseline="middle"
+            text-anchor="middle"
+            fill="red"
+            font-size="22">
+            94
+          </text>
+        </svg>
+
+        <div class="row">
+          <div class="col4">Acceleration</div>
+          <div class="col1">53</div>
+        </div>
+        <div class="row">
+          <div class="col4">Sprint Speed</div>
+          <div class="col1">53</div>
+        </div>
+      </div>
+      <div class="summary-item">
+        <p class="title">SHOOTING</p>
+        <svg
+          height="50"
+          version="1.1"
+          width="104"
+          xmlns="http://www.w3.org/2000/svg">
+          <path fill="none" stroke="#ddd" stroke-width="4" id="arc3" />
+          <path fill="none" stroke="green" stroke-width="4" id="arc4" />
+          <text
+            x="50%"
+            y="75%"
+            dominant-baseline="middle"
+            text-anchor="middle"
+            fill="red"
+            font-size="22">
+            94
+          </text>
+        </svg>
+
+        <div class="row">
+          <div class="col4">Positioning</div>
+          <div class="col1">53</div>
+        </div>
+        <div class="row">
+          <div class="col4">Finishing</div>
+          <div class="col1">53</div>
+        </div>
+        <div class="row">
+          <div class="col4">Shot Power</div>
+          <div class="col1">53</div>
+        </div>
+        <div class="row">
+          <div class="col4">Long Shots</div>
+          <div class="col1">53</div>
+        </div>
+        <div class="row">
+          <div class="col4">Volleys</div>
+          <div class="col1">53</div>
+        </div>
+        <div class="row">
+          <div class="col4">Penalties</div>
+          <div class="col1">53</div>
+        </div>
+      </div>
+      <div class="summary-item">1</div>
+      <div class="summary-item">1</div>
+      <div class="summary-item">1</div>
+      <div class="summary-item">1</div>
+    </div>
+  </div>
+</div>

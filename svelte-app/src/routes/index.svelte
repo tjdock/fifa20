@@ -1,0 +1,258 @@
+<style>
+  /*positions*/
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  .positions {
+    width: calc(68px * 5);
+    height: calc(105px * 5);
+    background: green;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    position: relative;
+  }
+  .positions .mid-line {
+    position: absolute;
+    background: #fff;
+    height: 2px;
+    width: 100%;
+    top: 50%;
+    left: 0;
+    background: #fff;
+    margin-top: -1px;
+  }
+  .positions .mid-circle {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: calc(9.15px * 2 * 5);
+    height: calc(9.15px * 2 * 5);
+    margin-left: calc(-9.15px * 5);
+    margin-top: calc(-9.15px * 5);
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }
+  .positions .mid-dot {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 4px;
+    height: 4px;
+    margin-left: -2px;
+    margin-top: -2px;
+    background: #fff;
+    border-radius: 50%;
+  }
+
+  /*top*/
+  .positions .top-big-area {
+    width: calc(40.32px * 5);
+    height: calc(16.5px * 5);
+    position: absolute;
+    left: 50%;
+    top: 0%;
+    margin-left: calc(-40.32px * 5 / 2);
+    border-bottom: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #fff;
+    background: green;
+  }
+  .positions .top-small-area {
+    width: calc(18.32px * 5);
+    height: calc(5.5px * 5);
+    position: absolute;
+    left: 50%;
+    top: 0%;
+    margin-left: calc(-18.32px * 5 / 2);
+    border-bottom: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #fff;
+  }
+  .positions .top-left-arc {
+    position: absolute;
+    top: calc(-1px * 5);
+    left: calc(-1px * 5);
+    width: calc(1px * 2 * 5);
+    height: calc(1px * 2 * 5);
+    border: 2px solid #fff;
+    border-radius: 50% 50%;
+  }
+  .positions .top-right-arc {
+    position: absolute;
+    top: calc(-1px * 5);
+    right: calc(-1px * 5);
+    width: calc(1px * 2 * 5);
+    height: calc(1px * 2 * 5);
+    border: 2px solid #fff;
+    border-radius: 50% 50%;
+  }
+  .positions .top-arc {
+    position: absolute;
+    top: calc((11px - 9.15px) * 5);
+    left: 50%;
+    width: calc(9.15px * 2 * 5);
+    height: calc(9.15px * 2 * 5);
+    margin-left: calc(-9.15px * 5);
+    border: 2px solid #fff;
+    border-radius: 50% 50%;
+  }
+  .positions .top-dot {
+    position: absolute;
+    left: 50%;
+    top: calc(11px * 5);
+    width: 4px;
+    height: 4px;
+    margin-left: -2px;
+    margin-top: -2px;
+    background: #fff;
+    border-radius: 50%;
+  }
+
+  /*bottom*/
+  .positions .bottom-big-area {
+    width: calc(40.32px * 5);
+    height: calc(16.5px * 5);
+    position: absolute;
+    left: 50%;
+    bottom: 0%;
+    margin-left: calc(-40.32px * 5 / 2);
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #fff;
+    background: green;
+  }
+  .positions .bottom-small-area {
+    width: calc(18.32px * 5);
+    height: calc(5.5px * 5);
+    position: absolute;
+    left: 50%;
+    bottom: 0%;
+    margin-left: calc(-18.32px * 5 / 2);
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #fff;
+  }
+  .positions .bottom-left-arc {
+    position: absolute;
+    bottom: calc(-1px * 5);
+    left: calc(-1px * 5);
+    width: calc(1px * 2 * 5);
+    height: calc(1px * 2 * 5);
+    border: 2px solid #fff;
+    border-radius: 50% 50%;
+  }
+  .positions .bottom-right-arc {
+    position: absolute;
+    bottom: calc(-1px * 5);
+    right: calc(-1px * 5);
+    width: calc(1px * 2 * 5);
+    height: calc(1px * 2 * 5);
+    border: 2px solid #fff;
+    border-radius: 50% 50%;
+  }
+  .positions .bottom-arc {
+    position: absolute;
+    bottom: calc((11px - 9.15px) * 5);
+    left: 50%;
+    width: calc(9.15px * 2 * 5);
+    height: calc(9.15px * 2 * 5);
+    margin-left: calc(-9.15px * 5);
+    border: 2px solid #fff;
+    border-radius: 50% 50%;
+  }
+  .positions .bottom-dot {
+    position: absolute;
+    left: 50%;
+    bottom: calc(11px * 5);
+    width: 4px;
+    height: 4px;
+    margin-left: -2px;
+    margin-top: -2px;
+    background: #fff;
+    border-radius: 50%;
+  }
+
+  .positions .row {
+    height: 30px;
+    display: flex;
+    z-index: 1;
+  }
+
+  .positions .d-center {
+    justify-content: center;
+  }
+  .positions .d-evenly {
+    justify-content: space-evenly;
+  }
+  .positions .d-between {
+    justify-content: space-between;
+  }
+  .positions .row .position {
+    width: 40px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.7);
+    color: #eee;
+    font-size: 12px;
+  }
+</style>
+
+<div class="center">
+  <div class="positions">
+    <div class="mid-line" />
+    <div class="mid-circle" />
+    <div class="mid-dot" />
+
+    <div class="top-arc" />
+    <div class="top-left-arc" />
+    <div class="top-right-arc" />
+    <div class="top-big-area" />
+    <div class="top-small-area" />
+    <div class="top-dot" />
+
+    <div class="bottom-arc" />
+    <div class="bottom-left-arc" />
+    <div class="bottom-right-arc" />
+    <div class="bottom-big-area" />
+    <div class="bottom-small-area" />
+    <div class="bottom-dot" />
+
+    <div class="row d-evenly">
+      <div class="position">LF</div>
+      <div class="position">ST</div>
+      <div class="position">RF</div>
+    </div>
+    <div class="row d-between">
+      <div class="position">LW</div>
+      <div class="position">CF</div>
+      <div class="position">RW</div>
+    </div>
+    <div class="row d-center">
+      <div class="position">CAM</div>
+    </div>
+    <div class="row d-evenly">
+      <div class="position">LM</div>
+      <div class="position">CM</div>
+      <div class="position">RM</div>
+    </div>
+    <div class="row d-between">
+      <div class="position">LWB</div>
+      <div class="position">CDM</div>
+      <div class="position">RWB</div>
+    </div>
+    <div class="row d-evenly">
+      <div class="position">LB</div>
+      <div class="position">CB</div>
+      <div class="position">RB</div>
+    </div>
+    <div class="row d-center">
+      <div class="position">GK</div>
+    </div>
+  </div>
+</div>
