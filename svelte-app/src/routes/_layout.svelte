@@ -1,5 +1,26 @@
 <script>
+  import { createEventDispatcher, onMount, onDestroy } from "svelte";
   export let segment;
+  import mainStore from "../store/main";
+  import leagueStore from "../store/league";
+  let isLoading;
+  let unsubscribe;
+  let selectedLeague;
+
+  onMount(() => {
+    unsubscribe = mainStore.subscribe(flag => {
+      isLoading = flag;
+    });
+    leagueStore.subscribe[1](item => {
+      //console.log(item);
+      selectedLeague = item;
+    });
+  });
+  onDestroy(() => {
+    if (unsubscribe) {
+      unsubscribe();
+    }
+  });
 </script>
 
 <style>
@@ -33,6 +54,11 @@
   </div>
   <div class="right-container">
     <div class="top-bar">
+      {#if selectedLeague}
+        <img alt="league" class="filter" src={selectedLeague.imageUrls.light} />
+      {/if}
+
+      <div class="spacer" />
       <a href="logout">logout</a>
     </div>
     <div class="content">
@@ -41,4 +67,10 @@
       </div>
     </div>
   </div>
+
+  {#if isLoading}
+    <div class="loading">
+      <div class="content">Loading...</div>
+    </div>
+  {/if}
 </div>
