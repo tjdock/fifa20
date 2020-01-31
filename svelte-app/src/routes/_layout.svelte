@@ -2,23 +2,35 @@
   import { createEventDispatcher, onMount, onDestroy } from "svelte";
   export let segment;
   import mainStore from "../store/main";
-  import leagueStore from "../store/league";
+  import { leagueStore } from "../store/league";
+  import { clubStore } from "../store/club";
   let isLoading;
-  let unsubscribe;
+  let unsubscribeMain;
+  let unsubscribeLeague;
+  let unsubscribeClub;
   let selectedLeague;
+  let selectedClub;
 
   onMount(() => {
-    unsubscribe = mainStore.subscribe(flag => {
+    unsubscribeMain = mainStore.subscribe(flag => {
       isLoading = flag;
     });
-    leagueStore.subscribe[1](item => {
-      //console.log(item);
+    unsubscribeLeague = leagueStore.subscribe(item => {
       selectedLeague = item;
+    });
+    unsubscribeClub = clubStore.subscribe(item => {
+      selectedClub = item;
     });
   });
   onDestroy(() => {
-    if (unsubscribe) {
-      unsubscribe();
+    if (unsubscribeMain) {
+      unsubscribeMain();
+    }
+    if (unsubscribeLeague) {
+      unsubscribeLeague();
+    }
+    if (unsubscribeClub) {
+      unsubscribeClub();
     }
   });
 </script>
@@ -57,7 +69,12 @@
       {#if selectedLeague}
         <img alt="league" class="filter" src={selectedLeague.imageUrls.light} />
       {/if}
-
+      {#if selectedClub}
+        <img
+          alt="club"
+          class="filter"
+          src={selectedClub.imageUrls.light.small} />
+      {/if}
       <div class="spacer" />
       <a href="logout">logout</a>
     </div>

@@ -1,9 +1,7 @@
 <script context="module">
   export function preload() {
     mainStore.setLoading(true);
-    return this.fetch(
-      "http://localhost:1234/ea-leagues?filter[order]=abbrName asc"
-    )
+    return this.fetch(API_URL + "/ea-leagues?filter[order]=abbrName asc")
       .then(res => {
         if (!res.ok) {
           throw new Error("Fetching failed, please try again later!");
@@ -12,7 +10,7 @@
       })
       .then(data => {
         mainStore.setLoading(false);
-        leagueStore.setLeagues(data);
+        leaguesStore.setLeagues(data);
       })
       .catch(err => {
         this.error(500, JSON.stringify(err));
@@ -23,14 +21,15 @@
 <script>
   import { createEventDispatcher, onMount, onDestroy } from "svelte";
   import LeagueItem from "../components/LeagueItem.svelte";
-  import leagueStore from "../store/league";
+  import { leaguesStore, leagueStore } from "../store/league";
   import mainStore from "../store/main";
+  import { API_URL } from "../shared/Consts";
 
   let loadedLeagues = [];
   let unsubscribe;
 
   onMount(() => {
-    unsubscribe = leagueStore.subscribe[0](item => {
+    unsubscribe = leaguesStore.subscribe(item => {
       loadedLeagues = item;
     });
   });
@@ -55,7 +54,6 @@
 </style>
 
 <div class="leagues">
-
   {#each loadedLeagues as league}
     <LeagueItem {league} on:itemClick={itemClickHandler} />
   {/each}
