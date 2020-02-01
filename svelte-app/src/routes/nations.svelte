@@ -1,44 +1,60 @@
+<script context="module">
+  export function preload() {
+    mainStore.setLoading(true);
+    return this.fetch(API_URL + "/ea-nations?filter[order]=name asc")
+      .then(res => {
+        if (!res.ok) {
+          throw new Error("Fetching failed, please try again later!");
+        }
+        return res.json();
+      })
+      .then(data => {
+        mainStore.setLoading(false);
+        nationsStore.setNations(data);
+      })
+      .catch(err => {
+        this.error(500, JSON.stringify(err));
+      });
+  }
+</script>
+
+<script>
+  import { createEventDispatcher, onMount, onDestroy } from "svelte";
+  import NationItem from "../components/NationItem.svelte";
+  import { nationsStore, nationStore } from "../store/nation";
+  import mainStore from "../store/main";
+  import { API_URL } from "../shared/Consts";
+
+  let loadedNations = [];
+  let unsubscribe;
+
+  onMount(() => {
+    unsubscribe = nationsStore.subscribe(item => {
+      loadedNations = item;
+    });
+  });
+
+  onDestroy(() => {
+    if (unsubscribe) {
+      unsubscribe();
+    }
+  });
+
+  const itemClickHandler = nation => {
+    nationStore.setNation(nation.detail);
+  };
+</script>
+
 <style>
   .nations {
     display: flex;
     flex-wrap: wrap;
-  }
-  .nation-item {
-    display: flex;
-    align-items: center;
-    width: 150px;
-    height: 55px;
-    box-shadow: rgba(0, 0, 0, 0.3) 0 0 10px;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 0 20px 20px 0;
-    font-size: 14px;
-    position: relative;
-  }
-  .nation-item img {
-    width: 40px;
-  }
-  .nation-item .nation-name {
-    width: 100%;
-    word-break: break-all;
-    margin-left: 10px;
-  }
-  .nation-item .btn-delete {
-    position: absolute;
-    right: 5px;
-    top: 0px;
-    width: 10px;
-    display: block;
-    text-align: center;
+    justify-content: space-between;
   }
 </style>
 
 <div class="nations">
-  <div class="nation-item">
-    <img
-      src="https://futhead.cursecdn.com/static/img/20/nations/21.png"
-      alt="nation" />
-    <span class="nation-name">Germany</span>
-    <a href="/" class="btn-delete">x</a>
-  </div>
+  {#each loadedNations as nation}
+    <NationItem {nation} on:itemClick={itemClickHandler} />
+  {/each}
 </div>

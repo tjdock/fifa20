@@ -4,12 +4,15 @@
   import mainStore from "../store/main";
   import { leagueStore } from "../store/league";
   import { clubStore } from "../store/club";
+  import { nationStore } from "../store/nation";
   let isLoading;
   let unsubscribeMain;
   let unsubscribeLeague;
   let unsubscribeClub;
+  let unsubscribeNation;
   let selectedLeague;
   let selectedClub;
+  let selectedNation;
 
   onMount(() => {
     unsubscribeMain = mainStore.subscribe(flag => {
@@ -20,6 +23,9 @@
     });
     unsubscribeClub = clubStore.subscribe(item => {
       selectedClub = item;
+    });
+    unsubscribeNation = nationStore.subscribe(item => {
+      selectedNation = item;
     });
   });
   onDestroy(() => {
@@ -32,7 +38,14 @@
     if (unsubscribeClub) {
       unsubscribeClub();
     }
+    if (unsubscribeNation) {
+      unsubscribeNation();
+    }
   });
+
+  const nationClickHandler = () => {
+    nationStore.setNation(null);
+  };
 </script>
 
 <style>
@@ -74,6 +87,13 @@
           alt="club"
           class="filter"
           src={selectedClub.imageUrls.light.small} />
+      {/if}
+      {#if selectedNation}
+        <img
+          alt="nation"
+          class="filter"
+          src={selectedNation.imageUrls.small}
+          on:click={nationClickHandler} />
       {/if}
       <div class="spacer" />
       <a href="logout">logout</a>
