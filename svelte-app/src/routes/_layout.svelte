@@ -72,7 +72,7 @@
           <a href="nations">Nations</a>
         </li>
         <li class={segment === 'players' ? 'active' : ''}>
-          <a rel="prefetch" href="players">Players</a>
+          <a href="players">Players</a>
         </li>
       </ul>
     </div>

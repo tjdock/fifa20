@@ -1,3 +1,135 @@
+<script context="module">
+  export function preload() {
+    let selectedLeague = get(leagueStore);
+    let selectedClub = get(clubStore);
+    let selectedNation = get(nationStore);
+    if (selectedLeague && selectedClub) {
+      mainStore.setLoading(true);
+      let url = `${API_URL}/ea-players?filter[where][league.id]=${selectedLeague.id}&filter[where][club.id]=${selectedClub.id}&filter[order]=name asc`;
+      if (selectedNation) {
+        url += `&filter[where][nation.id]=${selectedNation.id}`;
+      }
+      return this.fetch(url)
+        .then(res => {
+          if (!res.ok) {
+            throw new Error("Fetching failed, please try again later!");
+          }
+          return res.json();
+        })
+        .then(data => {
+          mainStore.setLoading(false);
+          playersStore.setPlayers(data);
+        })
+        .catch(err => {
+          mainStore.setLoading(false);
+          this.error(500, JSON.stringify(err));
+        });
+    }
+  }
+</script>
+
+<script>
+  import { goto } from "@sapper/app";
+  import { createEventDispatcher, onMount, onDestroy } from "svelte";
+  import PlayerItem from "../../components/PlayerItem.svelte";
+
+  import { get } from "svelte/store";
+  import mainStore from "../../store/main";
+  import { clubStore, clubsStore } from "../../store/club";
+  import { leagueStore } from "../../store/league";
+  import { nationStore } from "../../store/nation";
+  import { playersStore, playerStore } from "../../store/player";
+
+  import { API_URL } from "../../shared/Consts";
+
+  let loadedPlayers = [];
+  let unsubscribe;
+  let sorting = "asc";
+  let sortCol = "name";
+  let attrSortCol = null;
+  let attrSorting = "asc";
+
+  onMount(() => {
+    unsubscribe = playersStore.subscribe(item => {
+      loadedPlayers = item;
+    });
+  });
+  onDestroy(() => {
+    if (unsubscribe) {
+      unsubscribe();
+    }
+  });
+  const itemClickHandler = player => {
+    goto("/players/" + player.detail.id);
+  };
+  $: getColStatus = name => {
+    if (name === sortCol) {
+      return sorting;
+    }
+  };
+  $: getAttrColStatus = name => {
+    if (name === attrSortCol) {
+      return attrSorting;
+    }
+  };
+  const sortAttr = (index, name) => {
+    if (name === attrSortCol) {
+      if (attrSorting === "desc") {
+        attrSorting = "asc";
+      } else {
+        attrSorting = "desc";
+      }
+    } else {
+      attrSortCol = name;
+      attrSorting = "asc";
+    }
+
+    const updatedPlayers = [...loadedPlayers];
+    updatedPlayers.sort((a, b) => {
+      let diff = a.attributes[index].value - b.attributes[index].value;
+      return attrSorting === "asc" ? diff : -diff;
+    });
+
+    loadedPlayers = updatedPlayers;
+  };
+
+  const thClickHandler = name => {
+    if (name === sortCol) {
+      sorting === "desc" ? (sorting = "asc") : (sorting = "desc");
+    } else {
+      sortCol = name;
+      sorting = "asc";
+    }
+
+    loadData();
+  };
+  const loadData = () => {
+    let selectedLeague = get(leagueStore);
+    let selectedClub = get(clubStore);
+    let selectedNation = get(nationStore);
+    mainStore.setLoading(true);
+    let url = `${API_URL}/ea-players?filter[where][league.id]=${selectedLeague.id}&filter[where][club.id]=${selectedClub.id}&filter[order]=${sortCol} ${sorting}`;
+    if (selectedNation) {
+      url += `&filter[where][nation.id]=${selectedNation.id}`;
+    }
+    fetch(url)
+      .then(res => {
+        if (!res.ok) {
+          throw new Error("Fetching failed, please try again later!");
+        }
+        return res.json();
+      })
+      .then(data => {
+        mainStore.setLoading(false);
+        playersStore.setPlayers(data);
+      })
+      .catch(err => {
+        mainStore.setLoading(false);
+        console.error(500, JSON.stringify(err));
+      });
+  };
+</script>
+
 <style>
   .table {
     text-align: left;
@@ -6,160 +138,131 @@
     width: 100%;
     font-size: 14px;
   }
-  .table .avatar {
-    width: 50px;
-  }
-  .table tr {
+  tr {
     border-bottom: 1px solid #ccc;
   }
-  .table .name {
-    font-weight: bold;
-  }
-  .table .tags {
-    display: flex;
-    align-items: center;
-  }
-  .table .tags .nation-img,
-  .table .tags .league-img {
-    width: 24px;
-    margin-right: 5px;
-  }
-  .table .tags .club-img {
-    width: 20px;
-  }
-  .table .rat {
-    text-shadow: 0 0 1px #000;
-    color: #fff;
-    width: 27px;
-    height: 27px;
-    display: inline-block;
-    line-height: 27px;
-    border-radius: 4px;
-  }
-  .table .rat.gold {
-    background: linear-gradient(
-      45deg,
-      #c6a009 0%,
-      #f2c40b 50%,
-      #f2c40b 51%,
-      #f0cf4a 100%
-    );
-  }
-  .table .rat.silver {
-    background: linear-gradient(
-      45deg,
-      #a9aeb1 0%,
-      #c2c7ca 50%,
-      #c2c7ca 51%,
-      #e9ecf0 100%
-    );
-  }
-  .table .rat.bronze {
-    background: linear-gradient(
-      45deg,
-      #6e4c35 0%,
-      #9f7f69 50%,
-      #9f7f69 51%,
-      #ffd9aa 100%
-    );
-  }
-  .table .fixed-width {
+  .fixed-width {
     /* width: 50px; */
     text-align: center;
   }
-  .table .rat.color90 {
-    background: #007e33;
+  th {
+    position: relative;
+    cursor: pointer;
   }
-  .table .rat.color80 {
-    background: #4caf50;
-    color: #fff;
+  th.asc::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 2px solid transparent;
+    border-right: 2px solid transparent;
+    border-bottom: 4px solid black;
+    position: absolute;
+    top: 8px;
+    margin-left: 5px;
   }
-  .table .rat.color70 {
-    background: #fbc02d;
-    color: #fff;
-  }
-  .table .rat.color5060 {
-    background: #fb8c00;
-    color: #fff;
-  }
-  .table .rat.color40 {
-    background: #f44336;
-    color: #fff;
+  th.desc::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 2px solid transparent;
+    border-right: 2px solid transparent;
+    border-top: 4px solid black;
+    position: absolute;
+    top: 8px;
+    margin-left: 5px;
   }
 </style>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th class="fixed-width" />
-      <th>Name</th>
-      <th class="fixed-width">RAT</th>
-      <th class="fixed-width">POS</th>
-      <th class="fixed-width">PAC</th>
-      <th class="fixed-width">SHO</th>
-      <th class="fixed-width">PAS</th>
-      <th class="fixed-width">DRI</th>
-      <th class="fixed-width">DEF</th>
-      <th class="fixed-width">PHY</th>
-      <th class="fixed-width">SKI</th>
-      <th class="fixed-width">WF</th>
-      <th class="fixed-width">W/R</th>
-      <th class="fixed-width">FOOT</th>
-      <th class="fixed-width">HEIGHT</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td class="fixed-width">
-        <img
-          alt="avatar"
-          class="avatar"
-          src="https://futhead.cursecdn.com/static/img/20/players/213013.png" />
-      </td>
-      <td>
-        <div class="name">Frank Acheampong</div>
-        <div class="tags">
-          <img
-            alt="nation"
-            class="nation-img"
-            src="https://futhead.cursecdn.com/static/img/20/nations/21.png" />
-          <img
-            alt="league"
-            class="league-img"
-            src="https://futhead.cursecdn.com/static/img/20/leagues/2012.png" />
-          <img
-            alt="club"
-            class="club-img"
-            src="https://futhead.cursecdn.com/static/img/20/clubs/111774.png" />
-        </div>
-      </td>
-      <td class="fixed-width">
-        <span class="rat bronze">77</span>
-      </td>
-      <td class="fixed-width">CF</td>
-      <td class="fixed-width">
-        <span class="rat color90">94</span>
-      </td>
-      <td class="fixed-width">
-        <span class="rat color80">84</span>
-      </td>
-      <td class="fixed-width">
-        <span class="rat color70">74</span>
-      </td>
-      <td class="fixed-width">
-        <span class="rat color5060">55</span>
-      </td>
-      <td class="fixed-width">
-        <span class="rat color40">44</span>
-      </td>
-      <td class="fixed-width">
-        <span class="rat color90">94</span>
-      </td>
-      <td class="fixed-width">4*</td>
-      <td class="fixed-width">3*</td>
-      <td class="fixed-width">H / L</td>
-      <td class="fixed-width">R</td>
-      <td class="fixed-width">168cm</td>
-    </tr>
-  </tbody>
-</table>
+{#if loadedPlayers.length > 0}
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="fixed-width" />
+        <th
+          class={getColStatus('name')}
+          on:click={() => thClickHandler('name')}>
+          Name
+        </th>
+        <th
+          class="fixed-width {getColStatus('rating')}"
+          on:click={() => thClickHandler('rating')}>
+          RAT
+        </th>
+        <th
+          class="fixed-width {getColStatus('position')}"
+          on:click={() => thClickHandler('position')}>
+          POS
+        </th>
+        <th
+          class="fixed-width {getAttrColStatus('pac')}"
+          on:click={() => sortAttr(0, 'pac')}>
+          PAC
+        </th>
+        <th
+          class="fixed-width {getAttrColStatus('sho')}"
+          on:click={() => sortAttr(1, 'sho')}>
+          SHO
+        </th>
+        <th
+          class="fixed-width {getAttrColStatus('pas')}"
+          on:click={() => sortAttr(2, 'pas')}>
+          PAS
+        </th>
+        <th
+          class="fixed-width {getAttrColStatus('dri')}"
+          on:click={() => sortAttr(3, 'dri')}>
+          DRI
+        </th>
+        <th
+          class="fixed-width {getAttrColStatus('def')}"
+          on:click={() => sortAttr(4, 'def')}>
+          DEF
+        </th>
+        <th
+          class="fixed-width {getAttrColStatus('phy')}"
+          on:click={() => sortAttr(5, 'phy')}>
+          PHY
+        </th>
+        <th
+          class="fixed-width {getColStatus('skillMoves')}"
+          on:click={() => thClickHandler('skillMoves')}>
+          SKI
+        </th>
+        <th
+          class="fixed-width {getColStatus('weakFoot')}"
+          on:click={() => thClickHandler('weakFoot')}>
+          WF
+        </th>
+        <th
+          class="fixed-width {getColStatus('foot')}"
+          on:click={() => thClickHandler('foot')}>
+          FOOT
+        </th>
+        <th
+          class="fixed-width {getColStatus('height')}"
+          on:click={() => thClickHandler('height')}>
+          HEIGHT
+        </th>
+        <th
+          class="fixed-width {getColStatus('weight')}"
+          on:click={() => thClickHandler('weight')}>
+          WEIGHT
+        </th>
+        <th
+          class="fixed-width {getColStatus('age')}"
+          on:click={() => thClickHandler('age')}>
+          AGE
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+
+      {#each loadedPlayers as player}
+        <PlayerItem {player} on:itemClick={itemClickHandler} />
+      {/each}
+
+    </tbody>
+  </table>
+{:else}
+  <p>Please elect a league and a club</p>
+{/if}
