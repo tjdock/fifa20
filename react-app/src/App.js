@@ -5,6 +5,7 @@ import * as actions from './store/action';
 import AuthRoute from './hoc/AuthRoute';
 import logo from './assets/images/logo.png';
 import css from './App.module.scss';
+import { CSSTransition } from 'react-transition-group';
 
 //Login
 const Login = React.lazy(() => {
@@ -67,50 +68,98 @@ const App = props => {
   };
 
   //路由设置
-  let routes = (
+  // let routes = (
+  //   <Suspense fallback={<div>Loading...</div>}>
+  //     <Switch>
+  //       <AuthRoute
+  //         isAuthenticated={isAuthenticated}
+  //         path="/positions"
+  //         component={Positions}
+  //       ></AuthRoute>
+  //       <AuthRoute
+  //         isAuthenticated={isAuthenticated}
+  //         path="/nations"
+  //         component={Nations}
+  //       ></AuthRoute>
+  //       <AuthRoute
+  //         isAuthenticated={isAuthenticated}
+  //         path="/leagues"
+  //         component={Leagues}
+  //       ></AuthRoute>
+  //       <AuthRoute
+  //         isAuthenticated={isAuthenticated}
+  //         path="/clubs"
+  //         component={Clubs}
+  //       ></AuthRoute>
+  //       <AuthRoute
+  //         exact
+  //         isAuthenticated={isAuthenticated}
+  //         path="/players"
+  //         component={Players}
+  //       ></AuthRoute>
+  //       <AuthRoute
+  //         isAuthenticated={isAuthenticated}
+  //         path="/players/:playerId"
+  //         component={PlayerDetail}
+  //       ></AuthRoute>
+  //       <Route path="/logout" component={Logout} />
+  //       <AuthRoute
+  //         exact
+  //         isAuthenticated={isAuthenticated}
+  //         path="/"
+  //         component={Positions}
+  //         unAuthenticatedComponent={Login}
+  //       ></AuthRoute>
+  //       <Redirect to="/" />
+  //     </Switch>
+  //   </Suspense>
+  // );
+
+  const routesConfig = [
+    { path: '/', name: 'positions', Component: Positions },
+    { path: '/positions', name: 'positions', Component: Positions },
+    { path: '/leagues', name: 'leagues', Component: Leagues },
+    { path: '/clubs', name: 'clubs', Component: Clubs },
+    { path: '/nations', name: 'nations', Component: Nations },
+    { path: '/players', name: 'players', Component: Players },
+    {
+      path: '/players/:playerId',
+      name: 'player-detail',
+      Component: PlayerDetail
+    },
+    { path: '/logout', name: 'logout', Component: Logout }
+    //404 不起作用
+    //{ path: '**', name: 'positions', Component: Positions },
+  ];
+  const routes = (
     <Suspense fallback={<div>Loading...</div>}>
-      <Switch>
-        <AuthRoute
-          isAuthenticated={isAuthenticated}
-          path="/positions"
-          component={Positions}
-        ></AuthRoute>
-        <AuthRoute
-          isAuthenticated={isAuthenticated}
-          path="/nations"
-          component={Nations}
-        ></AuthRoute>
-        <AuthRoute
-          isAuthenticated={isAuthenticated}
-          path="/leagues"
-          component={Leagues}
-        ></AuthRoute>
-        <AuthRoute
-          isAuthenticated={isAuthenticated}
-          path="/clubs"
-          component={Clubs}
-        ></AuthRoute>
-        <AuthRoute
-          exact
-          isAuthenticated={isAuthenticated}
-          path="/players"
-          component={Players}
-        ></AuthRoute>
-        <AuthRoute
-          isAuthenticated={isAuthenticated}
-          path="/players/:playerId"
-          component={PlayerDetail}
-        ></AuthRoute>
-        <Route path="/logout" component={Logout} />
-        <AuthRoute
-          exact
-          isAuthenticated={isAuthenticated}
-          path="/"
-          component={Positions}
-          unAuthenticatedComponent={Login}
-        ></AuthRoute>
-        <Redirect to="/" />
-      </Switch>
+      {routesConfig.map(({ path, Component }) => (
+        <Route key={path} exact path={path}>
+          {({ match }) => (
+            <CSSTransition
+              in={match != null}
+              timeout={300}
+              classNames="page"
+              unmountOnExit
+            >
+              <div className="page">
+                <Component />
+              </div>
+            </CSSTransition>
+          )}
+        </Route>
+      ))}
+    </Suspense>
+  );
+
+  const unAuthRoutesConfig = [{ path: '**', name: 'login', Component: Login }];
+  const unAuthRoutes = (
+    <Suspense fallback={<div>Loading...</div>}>
+      {unAuthRoutesConfig.map(({ path, Component }) => (
+        <Route exact path={path} key={path}>
+          <Component />
+        </Route>
+      ))}
     </Suspense>
   );
 
@@ -190,16 +239,21 @@ const App = props => {
         </div>
       </div>
 
-      {snackbar.type && (
+      <CSSTransition
+        in={snackbar.type != null}
+        timeout={500}
+        classNames="snack-bar"
+        unmountOnExit
+      >
         <div
           className={[
-            css.snackBar,
-            snackbar.type === 'error' ? css.error : css.success
+            'snack-bar',
+            snackbar.type === 'error' ? 'error' : 'success'
           ].join(' ')}
         >
           {snackbar.msg}
         </div>
-      )}
+      </CSSTransition>
 
       {loading && (
         <div className={css.loading}>
@@ -208,7 +262,7 @@ const App = props => {
       )}
     </div>
   ) : (
-    routes
+    unAuthRoutes
   );
 };
 

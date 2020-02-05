@@ -4,6 +4,9 @@
   box-sizing: border-box;
   font-family: 'Microsoft YaHei';
 }
+body {
+  overflow-y: hidden;
+}
 a {
   text-decoration: none;
 }
@@ -54,4 +57,75 @@ a {
     display: block;
     text-align: center;
   }
+}
+
+//For Route Animation
+.page {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  top: 20px;
+  bottom: 20px;
+}
+.page-enter {
+  opacity: 0;
+  transform: scale(1.1);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.page-exit {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.page-exit-active {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 300ms, transform 300ms;
+}
+
+//For SnackBar Animation
+.snack-bar {
+  position: fixed;
+  left: 50%;
+  width: 300px;
+  height: 30px;
+  line-height: 20px;
+  margin-left: -150px;
+  z-index: 1;
+  padding: 5px;
+  color: #fff;
+  font-size: 13px;
+  text-align: center;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+
+  &.error {
+    background-color: red;
+  }
+  &.success {
+    background-color: green;
+  }
+}
+.snack-bar-enter {
+  opacity: 0;
+  transform: translateY(-40px);
+}
+.snack-bar-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 500ms, transform 500ms;
+}
+.snack-bar-exit {
+  opacity: 1;
+}
+.snack-bar-exit-active {
+  opacity: 0;
+  transform: translateY(-40px);
+  transition: opacity 500ms, transform 500ms;
 }

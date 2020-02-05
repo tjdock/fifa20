@@ -16,7 +16,9 @@ const PlayerDetail = props => {
 
   useEffect(() => {
     onGetPlayer(props.match.params.playerId);
-  }, [onGetPlayer, props.match.params.playerId]);
+
+    //加入props.match.params.playerId，惦记后退按钮会报错
+  }, [onGetPlayer]);
 
   return (
     player && (

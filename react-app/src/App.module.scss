@@ -71,34 +71,10 @@
       background: #fff;
       height: 100%;
       padding: 20px;
+      position: relative;
+      overflow-y: scroll;
+      overflow-x: hidden;
     }
-  }
-}
-
-.snackBar {
-  position: fixed;
-  left: 50%;
-  width: 300px;
-  height: 30px;
-  line-height: 20px;
-  margin-left: -150px;
-  z-index: 1;
-  padding: 5px;
-
-  color: #fff;
-  font-size: 13px;
-  text-align: center;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  transform: translateY(-40px);
-  animation: transform 1s;
-  &.error {
-    background-color: red;
-    transform: translateY(0px);
-  }
-  &.success {
-    background-color: green;
-    transform: translateY(0px);
   }
 }
 

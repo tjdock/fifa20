@@ -13,14 +13,9 @@ const Login = props => {
 
   return (
     <div>
-      <input type="text" placeholder="email" ref={emailRef} value="admin" />
+      <input type="text" placeholder="admin" ref={emailRef} />
       <br />
-      <input
-        type="password"
-        placeholder="password"
-        ref={passwordRef}
-        value="123"
-      />
+      <input type="password" placeholder="123" ref={passwordRef} />
       <br />
       <button onClick={doLogin}>Login</button>
     </div>
