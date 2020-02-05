@@ -47,6 +47,16 @@
 
 `npm i antd`
 
+### 10.build
+
+禁用 sourceMap,在根目录添加`.env`文件,写入<br>
+`GENERATE_SOURCEMAP=false`
+
+### 11.animation
+
+详见[官网](https://reactcommunity.org/react-transition-group/)<br>
+`npm install react-transition-group --save`
+
 ## 二.常用 CLI
 
 ### 1.创建项目
