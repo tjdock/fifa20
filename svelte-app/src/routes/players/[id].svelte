@@ -1,3 +1,51 @@
+<script context="module">
+  export function preload(page, session) {
+    let id = page.params.id;
+    mainStore.setLoading(true);
+    return this.fetch(API_URL + "/ea-players/" + id)
+      .then(res => {
+        if (!res.ok) {
+          throw new Error("Fetching failed, please try again later!");
+        }
+        return res.json();
+      })
+      .then(data => {
+        mainStore.setLoading(false);
+        playerStore.setPlayer(data);
+      })
+      .catch(err => {
+        mainStore.setLoading(false);
+        this.error(500, JSON.stringify(err));
+      });
+  }
+</script>
+
+<script>
+  import { createEventDispatcher, onMount, onDestroy } from "svelte";
+  import { playerStore } from "../../store/player";
+  import mainStore from "../../store/main";
+  import { API_URL } from "../../shared/Consts";
+  import ArcDashboard from "../../components/ArcDashboard.svelte";
+  import DetailItem from "../../components/DetailItem.svelte";
+
+  let player = null;
+  let unsubscribe;
+  $: weakFoot = player ? Array(player.weakFoot).fill(0) : [];
+  $: skillMoves = player ? Array(player.skillMoves).fill(0) : [];
+
+  onMount(() => {
+    unsubscribe = playerStore.subscribe(item => {
+      player = item;
+    });
+  });
+
+  onDestroy(() => {
+    if (unsubscribe) {
+      unsubscribe();
+    }
+  });
+</script>
+
 <style>
   .details {
     display: flex;
@@ -20,11 +68,23 @@
   .details .player-card {
     width: 212px;
     height: 315px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .details .player-card.gold {
     background: url("https://futhead.cursecdn.com/static/img/20/cards/large/1_1_3.png")
       center center;
     background-size: cover;
-    margin: 0 auto;
-    position: relative;
+  }
+  .details .player-card.silver {
+    background: url("https://futhead.cursecdn.com/static/img/20/cards/large/1_1_2.png")
+      center center;
+    background-size: cover;
+  }
+  .details .player-card.bronze {
+    background: url("https://futhead.cursecdn.com/static/img/20/cards/large/1_1_1.png")
+      center center;
+    background-size: cover;
   }
   .details .player-card .avatar {
     width: 135px;
@@ -131,10 +191,7 @@
     flex: 1;
     padding: 0 8px;
   }
-  .details .summary .summary-item svg {
-    display: block;
-    margin: 10px auto;
-  }
+
   .details .summary .summary-item:not(:last-child) {
     border-right: 1px solid #ddd;
   }
@@ -143,179 +200,187 @@
     font-weight: bold;
     text-align: center;
   }
-
-  .details .summary-item .row {
-    display: flex;
-    font-size: 12px;
-    height: 30px;
-  }
-  .details .summary-item .row .col4 {
-    flex: 4;
-  }
-  .details .summary-item .row .col1 {
-    flex: 1;
-    text-align: right;
-  }
 </style>
 
-<div class="details">
-  <div class="left">
-    <div class="player-card">
-      <div class="base">
-        <span class="rat">78</span>
-        <span>ST</span>
-        <img
-          alt="nation"
-          src="https://futhead.cursecdn.com/static/img/20/nations/21.png"
-          class="nation" />
-        <img
-          alt="club"
-          src="https://futhead.cursecdn.com/static/img/20/clubs/111774.png"
-          class="club" />
+{#if player}
+  <div class="details">
+    <div class="left">
+      <div class="player-card {player.quality}">
+        <div class="base">
+          <span class="rat">{player.rating}</span>
+          <span>{player.position}</span>
+          <img
+            alt="nation"
+            src={player.nation.imageUrls.small}
+            class="nation" />
+          <img alt="club" src={player.league.imageUrls.light} class="club" />
+        </div>
+        <img alt="avatar" class="avatar" src={player.headshot.imgUrl} />
+        <span class="name">{player.name}</span>
+        <div class="data-left">
+          <span>{player.attributes[0].value} PAC</span>
+          <span>{player.attributes[1].value} SHO</span>
+          <span>{player.attributes[2].value} PAS</span>
+        </div>
+        <div class="data-right">
+          <span>{player.attributes[3].value} DRI</span>
+          <span>{player.attributes[4].value} DEF</span>
+          <span>{player.attributes[5].value} PHY</span>
+        </div>
       </div>
-      <img
-        alt="avatar"
-        class="avatar"
-        src="https://futhead.cursecdn.com/static/img/20/players/184069.png" />
-      <span class="name">Wagner</span>
-      <div class="data-left">
-        <span>59 PAC</span>
-        <span>79 SHO</span>
-        <span>34 PAS</span>
-      </div>
-      <div class="data-right">
-        <span>59 DRI</span>
-        <span>79 DEF</span>
-        <span>34 PHY</span>
+
+      <div class="grid">
+        <div class="row">
+          <div class="col label">Club</div>
+          <div class="col">{player.club.name}</div>
+        </div>
+        <div class="row">
+          <div class="col label">League</div>
+          <div class="col">{player.league.name}</div>
+        </div>
+        <div class="row">
+          <div class="col label">Nation</div>
+          <div class="col">{player.nation.name}</div>
+        </div>
+        <div class="row">
+          <div class="col label">Strong Foot</div>
+          <div class="col">{player.foot}</div>
+        </div>
+        <div class="row">
+          <div class="col label">Skill Moves</div>
+          <div class="col">
+            {#each weakFoot as _}
+              <span class="icon-star" />
+            {/each}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col label">Week Foot</div>
+          <div class="col">
+            {#each skillMoves as _}
+              <span class="icon-star" />
+            {/each}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col label">Age</div>
+          <div class="col">{player.age} - {player.birthdate}</div>
+        </div>
+        <div class="row">
+          <div class="col label">Height</div>
+          <div class="col">{player.height}cm</div>
+        </div>
+        <div class="row">
+          <div class="col label">Weight</div>
+          <div class="col">{player.weight}kg</div>
+        </div>
       </div>
     </div>
+    <div class="right">
+      {#if player.isGK}
+        <div class="summary">
+          <div class="summary-item">
+            <p class="title">DIVING</p>
+            <ArcDashboard value={player.attributes[0].value} index="0" />
 
-    <div class="grid">
-      <div class="row">
-        <div class="col label">Club</div>
-        <div class="col">Tianjin Teda</div>
-      </div>
-      <div class="row">
-        <div class="col label">League</div>
-        <div class="col">China Super League</div>
-      </div>
-      <div class="row">
-        <div class="col label">Nation</div>
-        <div class="col">China</div>
-      </div>
-      <div class="row">
-        <div class="col label">Strong Foot</div>
-        <div class="col">Right</div>
-      </div>
-      <div class="row">
-        <div class="col label">Skill Moves</div>
-        <div class="col">
-          <span class="icon-star" />
-          <span class="icon-star" />
-          <span class="icon-star" />
-          <span class="icon-star" />
+            <DetailItem title="Diving" value={player.gkdiving} />
+          </div>
+          <div class="summary-item">
+            <p class="title">HANDLING</p>
+            <ArcDashboard value={player.attributes[1].value} index="1" />
+
+            <DetailItem title="Handling" value={player.gkhandling} />
+          </div>
+          <div class="summary-item">
+            <p class="title">KICKING</p>
+            <ArcDashboard value={player.attributes[2].value} index="2" />
+
+            <DetailItem title="Kicking" value={player.gkkicking} />
+          </div>
+          <div class="summary-item">
+            <p class="title">REFLEXES</p>
+            <ArcDashboard value={player.attributes[3].value} index="3" />
+
+            <DetailItem title="Reflexes" value={player.gkreflexes} />
+          </div>
+          <div class="summary-item">
+            <p class="title">SPEED</p>
+            <ArcDashboard value={player.attributes[4].value} index="4" />
+
+            <DetailItem title="Acceleration" value={player.acceleration} />
+            <DetailItem title="Sprint Speed" value={player.sprintspeed} />
+          </div>
+          <div class="summary-item">
+            <p class="title">POSITIONING</p>
+            <ArcDashboard value={player.attributes[5].value} index="5" />
+
+            <DetailItem title="Positioning" value={player.gkpositioning} />
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col label">Week Foot</div>
-        <div class="col">
-          <span class="icon-star" />
+      {:else}
+        <div class="summary">
+          <div class="summary-item">
+            <p class="title">PACE</p>
+            <ArcDashboard value={player.attributes[0].value} index="0" />
+
+            <DetailItem title="Acceleration" value={player.acceleration} />
+            <DetailItem title="Sprint Speed" value={player.sprintspeed} />
+          </div>
+          <div class="summary-item">
+            <p class="title">SHOOTING</p>
+            <ArcDashboard value={player.attributes[1].value} index="1" />
+
+            <DetailItem title="Positioning" value={player.positioning} />
+            <DetailItem title="Finishing" value={player.finishing} />
+            <DetailItem title="Shot Power" value={player.shotpower} />
+            <DetailItem title="Long Shots" value={player.longshots} />
+            <DetailItem title="Volleys" value={player.volleys} />
+            <DetailItem title="Penalties" value={player.penalties} />
+          </div>
+          <div class="summary-item">
+            <p class="title">PASSING</p>
+            <ArcDashboard value={player.attributes[2].value} index="2" />
+
+            <DetailItem title="Vision" value={player.vision} />
+            <DetailItem title="Crossing" value={player.crossing} />
+            <DetailItem title="Free Kick" value={player.freekickaccuracy} />
+            <DetailItem title="Short Passing" value={player.shortpassing} />
+            <DetailItem title="Long Passing" value={player.longpassing} />
+            <DetailItem title="Curve" value={player.curve} />
+          </div>
+          <div class="summary-item">
+            <p class="title">DRIBBLING</p>
+            <ArcDashboard value={player.attributes[3].value} index="3" />
+
+            <DetailItem title="Agility" value={player.agility} />
+            <DetailItem title="Balance" value={player.balance} />
+            <DetailItem title="Reactions" value={player.reactions} />
+            <DetailItem title="Ball Control" value={player.ballcontrol} />
+            <DetailItem title="Dribbling" value={player.dribbling} />
+            <DetailItem title="Composure" value={player.composure} />
+          </div>
+          <div class="summary-item">
+            <p class="title">DEFENSE</p>
+            <ArcDashboard value={player.attributes[4].value} index="4" />
+
+            <DetailItem title="Interceptions" value={player.interceptions} />
+            <DetailItem title="Heading" value={player.headingaccuracy} />
+            <DetailItem title="Def. Awareness" value={player.marking} />
+            <DetailItem title="Standing Tackle" value={player.standingtackle} />
+            <DetailItem title="Sliding Tackle" value={player.slidingtackle} />
+          </div>
+          <div class="summary-item">
+            <p class="title">PHYSICAL</p>
+            <ArcDashboard value={player.attributes[5].value} index="5" />
+
+            <DetailItem title="Jumping" value={player.jumping} />
+            <DetailItem title="Stamina" value={player.stamina} />
+            <DetailItem title="Strength" value={player.strength} />
+            <DetailItem title="Aggression" value={player.aggression} />
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col label">Age</div>
-        <div class="col">31 - 29/12/1982</div>
-      </div>
-      <div class="row">
-        <div class="col label">Height</div>
-        <div class="col">194cm</div>
-      </div>
-      <div class="row">
-        <div class="col label">Workrates</div>
-        <div class="col">H / L</div>
-      </div>
+      {/if}
+
     </div>
   </div>
-  <div class="right">
-    <div class="summary">
-      <div class="summary-item">
-        <p class="title">PACE</p>
-        <svg
-          height="50"
-          version="1.1"
-          width="104"
-          xmlns="http://www.w3.org/2000/svg">
-          <path fill="none" stroke="#ddd" stroke-width="4" id="arc1" />
-          <path fill="none" stroke="green" stroke-width="4" id="arc2" />
-          <text
-            x="50%"
-            y="75%"
-            dominant-baseline="middle"
-            text-anchor="middle"
-            fill="red"
-            font-size="22">
-            94
-          </text>
-        </svg>
-
-        <div class="row">
-          <div class="col4">Acceleration</div>
-          <div class="col1">53</div>
-        </div>
-        <div class="row">
-          <div class="col4">Sprint Speed</div>
-          <div class="col1">53</div>
-        </div>
-      </div>
-      <div class="summary-item">
-        <p class="title">SHOOTING</p>
-        <svg
-          height="50"
-          version="1.1"
-          width="104"
-          xmlns="http://www.w3.org/2000/svg">
-          <path fill="none" stroke="#ddd" stroke-width="4" id="arc3" />
-          <path fill="none" stroke="green" stroke-width="4" id="arc4" />
-          <text
-            x="50%"
-            y="75%"
-            dominant-baseline="middle"
-            text-anchor="middle"
-            fill="red"
-            font-size="22">
-            94
-          </text>
-        </svg>
-
-        <div class="row">
-          <div class="col4">Positioning</div>
-          <div class="col1">53</div>
-        </div>
-        <div class="row">
-          <div class="col4">Finishing</div>
-          <div class="col1">53</div>
-        </div>
-        <div class="row">
-          <div class="col4">Shot Power</div>
-          <div class="col1">53</div>
-        </div>
-        <div class="row">
-          <div class="col4">Long Shots</div>
-          <div class="col1">53</div>
-        </div>
-        <div class="row">
-          <div class="col4">Volleys</div>
-          <div class="col1">53</div>
-        </div>
-        <div class="row">
-          <div class="col4">Penalties</div>
-          <div class="col1">53</div>
-        </div>
-      </div>
-      <div class="summary-item">1</div>
-      <div class="summary-item">1</div>
-      <div class="summary-item">1</div>
-      <div class="summary-item">1</div>
-    </div>
-  </div>
-</div>
+{/if}

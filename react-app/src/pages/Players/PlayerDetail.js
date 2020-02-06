@@ -212,22 +212,10 @@ const PlayerDetail = props => {
                 <p className="title">PHYSICAL</p>
                 <ArcDashboard value={player.attributes[5].value} />
 
-                <div className="row">
-                  <div className="col4">Jumping</div>
-                  <div className="col1">{player.jumping}</div>
-                </div>
-                <div className="row">
-                  <div className="col4">Stamina</div>
-                  <div className="col1">{player.stamina}</div>
-                </div>
-                <div className="row">
-                  <div className="col4">Strength</div>
-                  <div className="col1">{player.strength}</div>
-                </div>
-                <div className="row">
-                  <div className="col4">Aggression</div>
-                  <div className="col1">{player.aggression}</div>
-                </div>
+                <DetailItem title="Jumping" value={player.jumping} />
+                <DetailItem title="Stamina" value={player.stamina} />
+                <DetailItem title="Strength" value={player.strength} />
+                <DetailItem title="Aggression" value={player.aggression} />
               </div>
             </div>
           )}

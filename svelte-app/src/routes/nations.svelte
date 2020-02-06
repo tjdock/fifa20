@@ -13,6 +13,7 @@
         nationsStore.setNations(data);
       })
       .catch(err => {
+        mainStore.setLoading(false);
         this.error(500, JSON.stringify(err));
       });
   }
