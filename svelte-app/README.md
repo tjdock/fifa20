@@ -21,6 +21,10 @@ https://github.com/sveltejs/sapper-template-rollup
 
 `npm run build`
 
+`node __sapper__/build`
+
 ### sapper
 
 `npm run export`
+
+`npx serve __sapper__/export`
