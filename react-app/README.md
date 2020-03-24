@@ -52,6 +52,14 @@
 禁用 sourceMap,在根目录添加`.env`文件,写入<br>
 `GENERATE_SOURCEMAP=false`
 
+package.json 加入 homepage 可以设置发布路径
+
+<pre>
+{
+    "homepage": "./",
+}
+</pre>
+
 ### 11.animation
 
 详见[官网](https://reactcommunity.org/react-transition-group/)<br>
