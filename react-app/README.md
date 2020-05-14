@@ -63,7 +63,11 @@ package.json 加入 homepage 可以设置发布路径
 ### 11.animation
 
 详见[官网](https://reactcommunity.org/react-transition-group/)<br>
+
 `npm install react-transition-group --save`
+
+### 12.其他插件
+`npm i nprogress connected-react-router react-highlight-words`
 
 ## 二.常用 CLI
 
