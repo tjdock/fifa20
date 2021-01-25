@@ -34,25 +34,29 @@ export class Fifa20Application extends BootMixin(
   constructor(options: ApplicationConfig = {}) {
     super(options);
 
-    this.api({
-      openapi: '3.0.0',
-      info: {title: 'pkg.name', version: 'pkg.version'},
-      paths: {},
-      components: {securitySchemes: SECURITY_SCHEME_SPEC},
-      servers: [{url: '/'}],
-    });
+    // ***************验证开始***************
 
-    //设置绑定内容
-    this.setUpBindings();
+    // this.api({
+    //   openapi: '3.0.0',
+    //   info: {title: 'pkg.name', version: 'pkg.version'},
+    //   paths: {},
+    //   components: {securitySchemes: SECURITY_SCHEME_SPEC},
+    //   servers: [{url: '/'}],
+    // });
 
-    //绑定验证控件
-    this.component(AuthenticationComponent);
+    // //设置绑定内容
+    // this.setUpBindings();
 
-    //定义JWT规则
-    registerAuthenticationStrategy(this, JWTAuthenticationStrategy);
+    // //绑定验证控件
+    // this.component(AuthenticationComponent);
 
-    //设置自定义验证顺序
-    this.sequence(MyAuthenticationSequence);
+    // //定义JWT规则
+    // registerAuthenticationStrategy(this, JWTAuthenticationStrategy);
+
+    // //设置自定义验证顺序
+    // this.sequence(MyAuthenticationSequence);
+
+    // ***************验证结束***************
 
     // Set up default home page
     this.static('/', path.join(__dirname, '../public'));
